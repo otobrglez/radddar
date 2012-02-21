@@ -1,0 +1,17 @@
+!!!
+%html
+	%head
+		%title radddar
+
+		= stylesheet_link_tag    "application", :media => "all"
+		= javascript_include_tag "application"
+		= csrf_meta_tags
+
+	%body
+		%p This is landing page...
+
+
+		-unless signed_in?
+			=link_to "Facebook login", "/auth/facebook"
+			|
+			=link_to "Twitter login", "/auth/twitter"

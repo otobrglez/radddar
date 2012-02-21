@@ -16,3 +16,9 @@
 
 # Sublime
 *.sublime*
+
+# Mongo DB
+mdb/
+
+# Foreman only local
+Procfile

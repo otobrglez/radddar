@@ -2,13 +2,6 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.1'
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
-
-
-# Gems used only for assets and not required
-# in production environments by default.
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
@@ -30,15 +23,37 @@ gem 'jquery-rails'
 # Use unicorn as the web server
 # gem 'unicorn'
 
-# Deploy with Capistrano
-# gem 'capistrano'
+gem 'haml', '>= 3.0.0'
+gem 'haml-rails'
+gem 'sass'
 
-# To use debugger
-# gem 'ruby-debug19', :require => 'ruby-debug'
+gem 'bson_ext'
+gem 'mongoid' # , '>= 2.0.0.beta.19'
+gem 'omniauth', :git => 'git://github.com/intridea/omniauth.git', :tag => 'v1.0.2'
+gem 'omniauth-facebook'
+gem 'omniauth-twitter'
 
-gem "haml", ">= 3.0.0"
-gem "haml-rails"
-gem "bson_ext"
-gem "mongoid", ">= 2.0.0.beta.19"
-gem "omniauth", "~> 0.2.0"
-gem "rspec-rails", ">= 2.0.1", :group => [:development, :test]
+group :development, :test do
+	gem 'rspec'
+	gem 'rspec-rails'
+	
+	gem 'guard'
+	gem 'guard-rspec'
+
+	gem 'spork', '~> 1.0rc'
+	gem 'growl'
+  	gem 'spork-rails'
+ 	gem 'guard-spork'
+ 	gem 'rb-fsevent', :require => false if RUBY_PLATFORM =~ /darwin/i
+	gem 'guard-livereload'
+
+	#gem 'jasmine'
+	#gem 'jasminerice'
+	
+	gem 'database_cleaner'
+	gem 'pry'
+	gem 'pry-doc'
+	gem 'ruby-debug19', :require => 'ruby-debug'
+	
+	gem 'factory_girl_rails'
+end

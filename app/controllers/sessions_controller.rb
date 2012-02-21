@@ -1,7 +1,15 @@
 class SessionsController < ApplicationController
+
+
+  def auth
+	  request.env['omniauth.auth']
+  end
+  
   def callback
-    auth # Do what you want with the auth hash!
+    auth 
+
+    render :json => auth.to_json
   end
 
-  def auth; request.env['omniauth.auth'] end
+
 end

@@ -1,5 +1,11 @@
 Radddar::Application.routes.draw do
-  match '/auth/:provider/callback', :to => 'sessions#callback'
+
+
+  root :to => "app#app"
+
+  match "/test", :to => "app#test"
+
+  match '/auth/:provider/callback', :to => 'sessions#callback', :as => "auth"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
