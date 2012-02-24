@@ -1,0 +1,8 @@
+.set_status_form
+	=form_for current_user, :url => status_set_path, :remote => true do |f|
+
+		- if f.object.errors.any?
+			- f.object.errors.full_messages.each do |error|
+				%span.error=error
+
+		=f.text_area :status, :rows => 3

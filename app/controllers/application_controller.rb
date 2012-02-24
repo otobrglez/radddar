@@ -4,12 +4,12 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
   helper_method :signed_in?
 
-  private
+  # private
   	def current_user
   		@current_user ||= User.find(session[:user_id]) if session[:user_id]
   	end
 
   	def signed_in?
-  		not (@current_user.nil? or session[:user_id].nil?)
+  		not (session[:user_id].nil?)
   	end
 end

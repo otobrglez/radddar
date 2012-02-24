@@ -1,0 +1,74 @@
+=render "app/stat"
+
+.profile_header{:class=>(current_user.gender=="" or current_user.gender.nil?)? "none": current_user.gender }
+
+	.live_status_field
+		=render partial:"app/user/status_field", locals:{user: user}
+
+	.status_tools
+		- if !user.image.nil?
+			.profile_image_wrap=image_tag user.image, width:48, height:48
+			
+		.tools
+			.status
+				=link_to "Update satus", status_form_path, :remote => true, :class => "update_status_link"
+
+				%span.buttonz
+					=link_to "Save", "#status_save"
+					|
+					=link_to "Cancel", "#status_cancel"
+%ul
+	%li.name
+		%span.label Name
+		%span.value=user.name
+	%li.age
+		%span.label Age
+		%span.value.selector
+			=form_for current_user, :url => profile_update_path, :remote => true do |f|
+				
+				.left=link_to "Left", "#left"
+
+				.current=user.age
+				=f.text_field :age, :class => "current_value"
+
+				.right=link_to "Right", "#Right"
+				.values
+					%ul
+						- (0..100).each do |i|
+							%li{class: "v_#{i}"}=i
+	%li.gender
+		%span.label Gender
+		%span.value.selector
+			=form_for current_user, :url => profile_update_path, :remote => true do |f|
+				.left=link_to "Left", "#left"
+				
+				.current=(user.gender.nil? or user.gender.to_s == "none")? "UFO": user.gender
+
+				=f.text_field :gender, :class => "current_value"
+
+				.right=link_to "Right", "#Right"
+				.values
+					%ul
+						%li{class: "v_female"}="FEMALE"
+						%li{class: "v_"}="UFO"
+						%li{class: "v_male"}="MALE"
+	%li.swap_range
+		%span.label Radddar swoop
+		%span.value.selector
+			=form_for current_user, :url => profile_update_path, :remote => true do |f|
+				.left=link_to "Left", "#left"
+				
+				.current
+					=number_to_human(user.swap_range,:units => :distance_short)
+				=f.text_field :swap_range, :class => "current_value"
+				
+				.right=link_to "Right", "#Right"
+				.values
+					%ul
+						- User.allowed_swap_ranges.each do |range|
+							%li{class: "v_#{range}"}
+								=number_to_human(range,:units => :distance_short)
+
+	%li.logout
+		%span.label=link_to "Logout", signout_path
+

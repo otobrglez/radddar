@@ -1,15 +1,23 @@
 class SessionsController < ApplicationController
 
+	# Access to auth hash from omniauth
+	def auth
+		request.env['omniauth.auth']
+	end
 
-  def auth
-	  request.env['omniauth.auth']
-  end
-  
-  def callback
-    auth 
+	# Respond to OAuth callback
+	def callback
+		raise "Unknown provider #{prams[:provider]}." unless params[:provider].in? %w(facebook twitter)
+		user = User.find_or_create auth
+		session[:user_id]=user.id.to_s
 
-    render :json => auth.to_json
-  end
+		redirect_to(app_url, :notice => "Signed in!")
+	end
+
+	def destroy
+ 		session[:user_id] = nil
+  		redirect_to root_url, :notice => "Signed out!"
+	end
 
 
 end

@@ -1,6 +1,8 @@
 # For more special queries please read:
 # http://stackoverflow.com/questions/7702244/mongodb-with-mongoid-in-rails-geospatial-indexing
 
+Mongoid.autocreate_indexes = true
+
 class User
   include Mongoid::Document
   include Mongoid::Timestamps
@@ -31,7 +33,9 @@ class User
   end
 
   # Return name as string
-  define_method(:to_s) { "#{self.name}" }
+  define_method(:to_s) {
+    age==0? "#{self.name}": "#{self.name}, #{age}"
+  }
 
   scope :box, ->(loc_a, loc_b) {
 	  User.where(:loc => {
@@ -48,11 +52,11 @@ class User
   validates_length_of :status, :maximum => 140,
   	:allow_nil => true,
   	:allow_blank => true,
-  	:message => "Status can't be longer than 140 characters!"
+  	:message => "can't be longer than 140 characters!"
   
   validates_inclusion_of :swap_range,
   	:in => User.allowed_swap_ranges,
-  	:message => "Selected range is not allowed!"
+  	:message => "range is not allowed!"
 
   # Swap around user
   def swap range=nil #m
@@ -143,6 +147,7 @@ class User
 
   # Set gender
   def gender= value
+    value=nil if value.nil? or value=="" or value=="none"
     self.gender_custom = value
     write_attribute :gender_custom, value
   end
@@ -171,6 +176,12 @@ class User
     DateTime.now.year-birthday.year
   end
 
+  # Set birthday to 1.1.year
+  def age= value
+    value = DateTime.now.year-value.to_i
+    self.birthday=DateTime.strptime("#{value}-1-1", "%Y-%m-%d")
+  end
+
   # Get gender for user
   def gender
 
@@ -190,6 +201,8 @@ class User
 
   # Find or create user from omniauth
   def self.find_or_create auth
+
+    current_location = nil
 
     if auth["provider"] =~ /(facebook|twitter)/i
       provider = Provider.new(
@@ -223,6 +236,15 @@ class User
         provider.gender = auth["extra"]["raw_info"]["gender"]
       end
 
+      # If provider has location
+      if !auth["info"].nil? && !auth["info"]["location"].nil?
+        begin
+          current_location = Geo.address_to_location(auth["info"]["location"])[:loc]
+        rescue
+          current_location = nil
+        end
+      end
+
     else
       raise 'Provider #{auth["provider"]} - is not yet supported!'
     end
@@ -237,13 +259,30 @@ class User
       user.providers = [provider]
     end
 
+    user.loc = current_location unless current_location.nil?
 
-    #TODO: update location from provider + Geo
     #TODO: update token for provider!
 
     user.save if user.valid?
 
     user
+  end
+
+  # user #to_json
+  def to_json options={}
+    {
+      id: id,
+      name: name,
+      image: image,
+      birthday: birthday,
+      age: age,
+      gender: gender,
+      loc: loc,
+      swap_range: swap_range,
+      status: status,
+      updated_at: updated_at,
+      providers: providers.map(&:provider)
+    }.to_json
   end
 
 end

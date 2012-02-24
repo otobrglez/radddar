@@ -1,11 +1,26 @@
 Radddar::Application.routes.draw do
 
+  # Landing page
+  root :to => "app#landing"
 
-  root :to => "app#app"
+  # The Radddar App ;)
+  match '/app', :to => "app#app", :as => "app"
 
-  match "/test", :to => "app#test"
-
+  # Signin / Signout
   match '/auth/:provider/callback', :to => 'sessions#callback', :as => "auth"
+  match '/signout', :to => 'sessions#destroy', :as => 'signout'
+
+  # Current user
+  match '/current_user', :to => "app#current_user_action", :as => "current_user"
+  match '/profile_update', :to => "app#profile_update", :as => "profile_update"
+  
+  # Status
+  match '/status_form', :to => "app#status_form", :as => "status_form"
+  match '/status_set', :to => "app#status_set", :as => "status_set"
+  match '/status_reload', :to => "app#status_reload", :as => "status_reload"
+
+  # Users
+  match '/profile/:id', :to => "app#profile", :as => "profile"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

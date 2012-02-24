@@ -1,0 +1,25 @@
+#map{style:"display:none;"}=" "
+
+#app
+	.slogan
+		=image_tag "radddar_slogan.png"
+	.tabs-nav
+		%ul
+			%li.back
+				%a(href="#back") BACK
+			%li.chat
+				%a(href="#chat") CHAT
+			%li.radddar
+				%a.active(href="#radddar") RADDDAR
+			%li.profile
+				%a(href="#profile") PROFILE
+			%li.about
+				%a(href="#about") ABOUT
+
+	.tabs
+		.chat.screen=render "app/chat/list"
+		.radddar.screen="radddar"
+		.radddar-list.screen="radddar_list"
+		.profile.screen.active=render partial:"app/user/profile", locals:{user: current_user}
+		.about.screen="about radddar"
+

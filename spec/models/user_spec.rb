@@ -235,8 +235,12 @@ describe User do
 			# Birthday 
 			user.birthday.year.should equal 1987
 			user.age.should equal DateTime.now.year - user.birthday.year
-
 			user.to_s.should == "oto.brglez, 25"
+
+			# Age
+			user.should respond_to :age=
+			user.age=10
+			user.birthday.year.should == 2002
 
 			# Gender
 			facebook_otobrglez["extra"]["raw_info"]["gender"].should == "male"
@@ -253,6 +257,36 @@ describe User do
 			user = User.find_or_create twitter_otobrglez
 			user.name.should =~ /otobrglez/
 			user.age.should == 0
+
+
+			user.loc.should_not be_empty
+		end
+
+		it "supports repeted login" do
+			user = User.find_or_create twitter_otobrglez
+			user_2 = User.find_or_create twitter_otobrglez
+			user.id.should == user_2.id
+		end
+
+		it "has nice #to_json" do
+			user = User.find_or_create facebook_otobrglez
+			string = user.to_json.to_s
+			
+			string.should match /oto\.brglez/
+
+			hash = JSON.parse(string)
+
+			hash.keys.should include "id"
+			hash.keys.should include "name"
+			hash.keys.should include "image"
+			hash.keys.should include "birthday"
+			hash.keys.should include "age"
+			hash.keys.should include "loc"
+			hash.keys.should include "swap_range"
+			hash.keys.should include "status"
+			hash.keys.should include "updated_at"
+
+			hash.keys.should include "providers"
 		end
 	end
 end

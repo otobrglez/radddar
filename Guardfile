@@ -24,3 +24,13 @@ guard 'rspec', :version => 2 do
   # Capybara request specs
   #watch(%r{^app/views/(.+)/.*\.(erb|haml)$})          { |m| "spec/requests/#{m[1]}_spec.rb" }
 end
+
+guard 'livereload', :apply_css_live => false, :apply_js_live => false do
+  watch(%r{app/.+\.(erb|haml|js|css|scss)})
+  watch(%r{app/helpers/.+\.rb})
+  watch(%r{(public/|app/assets).+\.(css|js|erb|html)})
+  watch(%r{(app/assets/.+\.css)\.s[ac]ss}) { |m| m[1] }
+  watch(%r{(app/assets/.+\.js)\.coffee}) { |m| m[1] }
+  watch(%r{(app/assets/.+\.js)\.erb}) { |m| m[1] }
+  watch(%r{config/locales/.+\.yml})
+end

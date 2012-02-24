@@ -3,11 +3,16 @@
 	%head
 		%title radddar
 
-		= stylesheet_link_tag    "application", :media => "all"
-		= javascript_include_tag "application"
+		= stylesheet_link_tag    "landing", :media => "all"
+		= javascript_include_tag "landing"
 		= csrf_meta_tags
 
 	%body
+
+		- if flash[:notice]
+			%p=flash[:notice]
+
+
 		%p This is landing page...
 
 

@@ -1,0 +1,488 @@
+/* By Oto Brglez - <oto.brglez@opalab.com> */
+
+@import url(http://fonts.googleapis.com/css?family=Anton);
+@font-face { font-family: steelfish; src: url('<%= asset_path "steelfish.ttf" %>'); }
+
+body,html,td,th,p,input,textarea{
+	font-family:sans-serif;
+	font-size:12px;
+}
+
+a{
+	color:white;
+	text-decoration:none;
+}
+
+p{
+	margin:0px;
+	padding:0px;
+}
+
+html,body{
+	margin:0px;
+	padding:0px;
+	color:white;
+	width:100%;
+	height:100%;
+	oveflow:hidden;
+}
+
+body{
+	background-image:url('<%=asset_path "bg.jpg" %>');
+	position:relative;
+}
+
+#app{
+	position:absolute;
+	border:none;
+	display:block;
+	width:100%;
+	height:100%;
+}
+
+#app{
+	background-image:url('<%=asset_path "bg.jpg" %>');
+
+
+	position:absolute;
+	top:0px;
+	z-index:10;
+
+	.slogan{
+		background-image:url('<%= asset_path "tabs_bg.png" %>');
+		background-repeat: repeat-x;
+		text-align:center;
+		height:28px;
+	}
+
+	.tabs-nav{
+		display:block;
+		width:100%;
+		height:58px;
+		overflow:hidden;
+		font-family: 'Anton', sans-serif;
+
+		/*
+		background-image:url('<%= asset_path "radddar_slogan.png" %>');
+		background-position: top center;
+		background-repeat:no-repeat;
+		padding-top:15px;
+		*/
+
+		ul,li{
+			list-style:none;
+			margin:0px;
+			padding:0px;
+		}
+
+		ul{
+			display:block;
+			width:100%;
+		}		
+
+		li{
+			float:left;
+			display:inline-block;
+			width:20%;
+			text-align:center;
+		
+			a{
+				font-family: 'Anton', sans-serif;
+				display:block;
+				background-position: center 0px;
+				background-repeat:no-repeat;
+				text-align:center;
+				
+				padding:0px;
+				padding-top:30px;
+				font-weight:normal;
+				margin-top:5px;
+				margin-bottom:0px;
+
+				border-right:1px dotted #666;
+				font-size:12px;
+			}
+		}
+
+		li:last-child a{
+			border:none;
+		}
+
+		li a:hover,
+		li a.active{
+			color:#65D7DE;
+		}
+
+		li.back a{
+			background-image:url('<%= asset_path "back_w.png" %>');
+		}
+
+		li.back a:hover,
+		li.back a.active{
+			background-image:url('<%= asset_path "back_b.png" %>');
+		}
+
+		li.chat a{
+			background-image:url('<%= asset_path "chat_w.png" %>');
+		}
+
+		li.chat a:hover,
+		li.chat a.active{
+			background-image:url('<%= asset_path "chat_b.png" %>');
+		}
+
+		li.radddar a{
+			background-image:url('<%= asset_path "radddar_w.png" %>');
+		}
+
+		li.radddar a:hover,
+		li.radddar a.active{
+			background-image:url('<%= asset_path "radddar_b.png" %>');
+		}
+
+		li.profile a{
+			background-image:url('<%= asset_path "profile_w.png" %>');
+		}
+
+		li.profile a:hover,
+		li.profile a.active{
+			background-image:url('<%= asset_path "profile_b.png" %>');
+		}
+
+		li.about a{
+			background-image:url('<%= asset_path "settings_w.png" %>');
+		}
+
+		li.about a:hover,
+		li.about a.active{
+			background-image:url('<%= asset_path "settings_b.png" %>');
+		}
+
+	}
+
+	.tabs{
+		margin-left:10px;
+		margin-right:10px;
+		border-top:1px dotted white;
+
+		.stat{
+			border-bottom:1px dotted white;
+			font-family: steelfish, sans-serif;
+			font-size:25px;
+			text-align:center;
+			text-transform:uppercase;
+			padding-top:2px;
+			padding-bottom:1px;
+			span.b{ color: #65D7DE; }
+		}
+
+		.tab, .screen{
+			display:none;
+		}
+
+		.tab.active, .screen.active{
+			display:block;
+		}
+	
+		/* Screens */
+
+		.profile{
+
+			.profile_header{
+				margin-top:5px;
+
+				.live_status_field{
+					.status_field,
+					.set_status_form{
+						textarea{
+							width:99%;
+							border:none;
+						}
+						margin-bottom:6px;
+						background-image:url("<%= asset_path 'status_down_b.png' %>");
+						background-position:30px bottom;
+						background-repeat:no-repeat;
+					}
+
+					.status_field{
+						padding-left:0px;
+						padding-right:0px;
+						margin-top:0px;
+						padding-top:0px;
+
+						/* background-color:blue; */
+						
+						p{
+							padding:10px;	
+						}
+					}
+				}
+
+				.status_tools{
+					position:relative;
+					height:60px;
+
+					.profile_image_wrap{
+						position:absolute;
+						left:40px;
+						top:0px;
+					}
+
+					.tools{
+						padding-left:105px;
+					}
+				}
+
+				.profile_image_wrap{
+					img{
+						width:48px;
+						height:48px;
+						margin-left:2px;
+						margin-top:3px;
+					}
+					
+					background-image:url("<%= asset_path 'box_b.png' %>");
+					background-repeat:no-repeat;
+					background-position:top center;
+
+					width:52px;
+					height:53px;
+				}
+
+				.status_field{
+					padding:5px;
+					margin-bottom:6px;
+				}
+
+				.status_tools .status,
+				.status_tools .status a{
+					font-family: steelfish;
+					font-size:25px;
+					text-transform:uppercase;
+				}
+
+				.status_tools{
+					.buttonz{
+						display:none;
+						a{ color: #65D7DE; }
+						float:right;
+					}
+				}
+
+				.update_status_link{ margin-right:20px; }
+			}
+
+			/* #### male #### */
+			.male .profile_image_wrap{
+				background-image:url("<%= asset_path 'box_c.png' %>"); }
+
+			.male .status_field p,
+			.male textarea{
+				background-color:#65D7DE; color:black;
+			}
+
+			/* #### female #### */
+			.female .profile_image_wrap{
+				background-image:url("<%= asset_path 'box_r.png' %>"); }
+			
+			.female .status_field p,
+			.female textarea{
+				background-color:#DE6C65; color:black;
+			}
+
+			.female .live_status_field .status_field,
+			.female .live_status_field .set_status_form{
+				background-image:url("<%= asset_path 'status_down_r.png' %>");
+			}
+
+			/* #### none #### */
+			.none .profile_image_wrap{
+				background-image:url("<%= asset_path 'box_b.png' %>"); }			
+
+			.none .status_field p,
+			.none textarea{
+				background-color:black; color:white;
+			}
+
+			.none .live_status_field .status_field,
+			.none .live_status_field .set_status_form{
+				background-image:url("<%= asset_path 'status_down_bl.png' %>");
+			}
+
+			ul,li{ list-style:none; padding:0px; margin:0px; }
+
+			li{
+				border-top:1px dotted white;
+				font-family: steelfish;
+				font-size:25px;
+				text-transform:uppercase;
+				position:relative;
+				background-position:left center;
+				background-repeat:no-repeat;
+				padding-left:40px;
+				line-height:40px;
+				height:40px;
+
+				span.label{
+					width:100px;
+					display:inline-block;
+				}
+
+				span.value{ color:#65D7DE }
+			}
+
+			li.name{ background-image:url("<%= asset_path 'name_w.png' %>"); }
+			li.age{ background-image:url("<%= asset_path 'age_w.png' %>"); }
+			li.gender{ background-image:url("<%= asset_path 'gender_w.png' %>"); }
+			li.swap_range{ background-image:url("<%= asset_path 'swap_w.png' %>"); }
+			li.logout{ background-image:url("<%= asset_path 'logout_w.png' %>"); }	
+		
+			.selector{
+				display:inline-block;
+				position:absolute;
+				right:0px;
+				
+				.left,
+				.right,
+				.current{
+					float:left;
+				}
+				
+				.left, .right{
+					display:block;
+					width:30px;
+
+					a{
+						display:inline-block;
+						width:30px;
+						overflow:hidden;
+						text-indent:-100px;
+						background-image:url("<%= asset_path 'left_w.png' %>");
+						background-repeat:no-repeat;
+						background-position:center center;
+					}
+
+					a.none{
+						background-image:none;
+					}
+				}
+
+				.right a{
+					background-image:url("<%= asset_path 'right_w.png' %>");
+				}
+
+				.current_value,
+				.values{ display:none; }
+			}
+		}
+	}
+}
+
+#map{
+	display:block;
+	position:absolute;
+	width:100%;
+	top:125px;
+	bottom:0px;
+	z-index:20;
+	background-color:white;
+}
+
+/*
+	############### MEDIA QUERYS ############### 
+*/
+
+@media only screen and (device-width: 768px) {
+  	/* For general iPad layouts */
+
+	#app .tabs-nav{
+		width: 405px;
+		text-aligne:center;
+		margin:0px auto;
+		li{ width:80px; }
+	}
+}
+
+@media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait) {
+  /* For portrait layouts only */
+}
+
+@media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape) {
+  /* For landscape layouts only */
+
+  div.wrap{
+		width:100%;
+		height:100%;
+	}
+
+	#app{
+		position:absolute;
+		z-index:20;
+		left:0px;
+		width:320px;
+	}
+
+	#app .tabs-nav{
+			width: 100%;
+			text-aligne:center;
+			margin:0px auto;
+			li{ width:20%; }
+  	}
+
+	#map{
+		position:absolute;
+		z-index:10;
+		left:320px;
+		top:0px;
+		overflow:hidden;
+	}
+}
+
+
+/*
+@media all and
+	(min-device-width: 480px) and
+	(max-device-width: 768px)
+	{
+	
+	#app{
+		.tabs-nav{
+			width: 405px;
+			text-aligne:center;
+			margin:0px auto;
+
+			li{
+				width:80px;
+			}
+		}
+	}
+}
+
+@media all and (min-width:768px){
+
+	div.wrap{
+		width:100%;
+		height:100%;
+	}
+
+	#app{
+		position:absolute;
+		z-index:20;
+		left:0px;
+		width:320px;
+	}		
+
+	body{
+		overflow:hidden;
+	}
+
+	#map{
+		position:absolute;
+		z-index:10;
+		left:320px;
+		top:0px;
+		overflow:hidden;
+	}
+
+}
+*/

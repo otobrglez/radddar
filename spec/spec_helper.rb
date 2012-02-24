@@ -19,6 +19,8 @@ Spork.prefork do
   Spork.trap_class_method(Rails::Mongoid, :load_models)
   Spork.trap_method(Rails::Application::RoutesReloader, :reload!)
 
+  OmniAuth.config.test_mode = true
+
   Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
   RSpec.configure do |config|

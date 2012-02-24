@@ -3,3 +3,18 @@
 
 en:
   hello: "Hello world"
+  
+  distance:
+    unit:
+      one: "meter"
+      other: "meters"
+    thousand:
+      one: "kilometer"
+      other: "kilometers"
+  distance_short:
+    unit:
+      one: "m"
+      other: "m"
+    thousand:
+      one: "km"
+      other: "km"      

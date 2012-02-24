@@ -39,11 +39,13 @@ group :development, :test do
 	
 	gem 'guard'
 	gem 'guard-rspec'
+	gem 'guard-livereload'
+	gem 'guard-spork'
 
 	gem 'spork', '~> 1.0rc'
 	gem 'growl'
   	gem 'spork-rails'
- 	gem 'guard-spork'
+
  	gem 'rb-fsevent', :require => false if RUBY_PLATFORM =~ /darwin/i
 	gem 'guard-livereload'
 
