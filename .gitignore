@@ -21,4 +21,4 @@
 mdb/
 
 # Foreman only local
-Procfile
+Procfile*
