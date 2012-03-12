@@ -1,0 +1,28 @@
+/* By Oto Brglez - <oto.brglez@opalab.com> */
+
+$(function(){
+
+	// Status form
+	$("#app .profile_header").radddar_status();
+	
+	// Get current user and establish private channel
+	CurrentUser.current_user(function(data){
+		var radddar_pusher = $("#app").radddar_pusher({
+			app_id:'<%= PUSHER["app_id"] %>',
+			key:'<%= PUSHER["key"] %>',
+			secret:'<%= PUSHER["secret"] %>',
+			user: data
+		});
+	});
+	
+	// Load navigation
+	$("#app").radddar_navigation();
+
+	// Selector buttons for profile form
+	$("#app .selector").radddar_selector();
+	
+	// Map magic
+	$("#map").radddar_map_engine();
+	// $("#map").hide();
+
+});

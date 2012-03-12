@@ -1,1 +1,4 @@
-%p list
+.stat=render "app/stat"
+
+.live_list.list
+	=render partial: "app/map/live_list", locals:{user: current_user}

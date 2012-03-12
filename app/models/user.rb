@@ -7,6 +7,9 @@ class User
   include Mongoid::Document
   include Mongoid::Timestamps
 
+  extend ActiveSupport::Concern
+  include ActionView::Helpers::NumberHelper
+
   # First name if facebook / username if twitter
   field :name, :type => String
 
@@ -58,21 +61,94 @@ class User
   	:in => User.allowed_swap_ranges,
   	:message => "range is not allowed!"
 
+#  included do
+#      self.send(:distance)
+#      self.send(:distance_to_human)
+#  end
+
+  # Distance from origin point
+  def distance
+    return 0 if self.loc == @@current_loc
+    return 0 if self.loc.nil? or @@current_loc.nil?
+    haversine_distance(@@current_loc,self.loc)
+  end
+
+  # Distance in human words
+  def distance_to_human
+    number_to_human(distance.to_i,:units => :distance_short).to_s
+  end 
+
   # Swap around user
+  @@current_loc = nil
   def swap range=nil #m
   	range = self.swap_range unless !range.nil?
 
   	raise "Range: #{range} - is not allowed range!" unless range.in? User.allowed_swap_ranges
-  	
-  	User.where(:loc => {
-	  	"$within" => {
-		  	"$centerSphere" => [
-			  	self.loc,
-			  	((range.fdiv(1000)).fdiv(6371))
-			]
-		}
-	}).where(:updated_at.gt => 7.days.ago)
+
+  	@@current_loc=self.loc
+
+    self.send(:distance)
+    self.send(:distance_to_human)
+
+    User.where(:loc => {
+    "$within" => {
+        "$centerSphere" => [self.loc, ((range.fdiv(1000)).fdiv(6371))]
+      }
+    }).where(:updated_at.gt => 7.days.ago)
   end
+
+  # Convert gender hash into words
+  def self.stat_to_human stats
+    return "Nobody is around you." if stats[:none]==0 and stats[:male] == 0 and stats[:female] == 0
+      
+    pom_str = []
+    stats = stats.select {|v| stats[v]>0 }
+
+    stats.keys.each do |key|
+      pom_str<< "#{stats[key]} #{User.none_to_ufo(key)}" if stats[key] == 1
+      pom_str<< "#{stats[key]} #{User.none_to_ufo(key.to_s).pluralize}" if stats[key] > 1
+    end
+
+    pom_str_v = pom_str.join(" and ")
+
+    are_is = "are"
+    are_is = "is" if pom_str.size == 1 or stats.first[1] == 1
+    are_is = "are" if stats.first[1] > 1
+
+    out = "There #{are_is} #{pom_str_v} around you."
+    
+    m = out.scan(/(\ and\ \d+\ \w+)/i).flatten.compact.uniq  
+    
+    out.gsub! m.first, m.first.gsub(" and",",") if m.size > 1 
+    
+    out 
+  end
+
+  # Do the stat lookup
+  def swap_stat range=nil
+    users = self.swap(range).select {|u| u.id != self.id}
+    stats = {female: 0,male: 0,none: 0}
+
+    stats.keys.each do |key|
+      stats[key] = users.to_a.inject(0) do |sum,v|
+        s_key = key.to_s
+        s_key = nil if key.to_s=="none"
+        if v.gender==s_key
+          sum + 1
+        else
+          sum + 0
+        end
+      end
+    end
+
+    User.stat_to_human stats
+  end
+
+  def self.none_to_ufo(value)
+    return "UFO" if value.to_s == "none"
+    value
+  end
+
 
   # Calculate channels
   def chats
@@ -263,9 +339,19 @@ class User
 
     #TODO: update token for provider!
 
-    user.save if user.valid?
+    
+    if user.valid?
+      user.updated_at = DateTime.now
+      user.save
+      user.trigger_swap_event "status-update_swap", user
+    end
 
     user
+  end
+
+  def gender_str
+    return "none" if self.gender.nil? or self.gender == "none"
+    self.gender
   end
 
   # user #to_json
@@ -281,8 +367,73 @@ class User
       swap_range: swap_range,
       status: status,
       updated_at: updated_at,
-      providers: providers.map(&:provider)
+      providers: providers.map(&:provider),
+      distance: distance,
+      private_channel: private_channel,
+      to_s: to_s
     }.to_json
   end
 
+  def to_data
+      data = {
+        id: id,
+        name: name,
+        to_s: to_s,
+        image: image,
+        birthday: birthday,
+        age: age,
+        gender: gender_str,
+        loc: loc,
+        swap_range: swap_range,
+        status: status,
+        updated_at: updated_at
+      }
+
+      Hash[(data.map{|i,v| "data-#{i}"}).zip(data.map{|i,v| v})]
+  end
+
+  def private_channel
+    "private-#{id}"
+  end
+
+  def trigger_event event, data=nil
+    Pusher[private_channel].trigger!(event, data)
+  end
+
+  def trigger_swap_event event, data=nil
+    users = self.swap
+    unless users.empty?
+      users.each do |user|
+        Pusher[user.private_channel].trigger!(event,data)
+      end
+    end
+  end
+
+  # PI = 3.1415926535
+  RAD_PER_DEG = 0.017453293  #  PI/180
+  #Rmiles = 3956           # radius of the great circle in miles
+  Rkm = 6371              # radius in kilometers...some algorithms use 6367
+  #Rfeet = Rmiles * 5282   # radius in feet
+  Rmeters = Rkm * 1000    # radius in meters
+
+  # haversine
+  private
+    def haversine_distance(a=[0,0],b=[0,0])
+      lat1,lon1=a[0],a[1]
+      lat2,lon2=b[0],b[1] 
+
+      dlon = lon2 - lon1
+      dlat = lat2 - lat1
+      dlon_rad = dlon * RAD_PER_DEG
+      dlat_rad = dlat * RAD_PER_DEG
+      lat1_rad = lat1 * RAD_PER_DEG
+      lon1_rad = lon1 * RAD_PER_DEG
+      lat2_rad = lat2 * RAD_PER_DEG
+      lon2_rad = lon2 * RAD_PER_DEG
+
+      a = Math.sin(dlat_rad/2)**2 + Math.cos(lat1_rad) * Math.cos(lat2_rad) * Math.sin(dlon_rad/2)**2
+      c = 2 * Math.asin( Math.sqrt(a))
+
+      Rmeters * c     # delta in meters
+    end
 end

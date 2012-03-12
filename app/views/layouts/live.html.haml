@@ -1,0 +1,10 @@
+!!!
+%html
+	%head
+		%title "RADDDAR Live"
+		= stylesheet_link_tag    "live", :media => "all"
+		= javascript_include_tag "live"
+		= csrf_meta_tags
+	%body
+		.main
+			=yield

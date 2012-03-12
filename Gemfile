@@ -14,6 +14,9 @@ end
 
 gem 'jquery-rails'
 
+gem 'pusher', :git => 'git://github.com/pusher/pusher-gem.git'
+gem 'em-http-request'
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
@@ -26,12 +29,14 @@ gem 'jquery-rails'
 gem 'haml', '>= 3.0.0'
 gem 'haml-rails'
 gem 'sass'
-
 gem 'bson_ext'
 gem 'mongoid' # , '>= 2.0.0.beta.19'
 gem 'omniauth', :git => 'git://github.com/intridea/omniauth.git', :tag => 'v1.0.2'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
+gem 'rabl'
+gem 'pry-rails', :group => :development
+
 
 group :development, :test do
 	gem 'rspec'

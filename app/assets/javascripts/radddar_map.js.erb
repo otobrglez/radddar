@@ -1,0 +1,140 @@
+/* By Oto Brglez - <oto.brglez@opalab.com> */
+
+var RadddarMap = new function(){
+
+	/* Actual map */
+	this.map = null;
+	this.markers = null;
+
+	/* Map options */
+	this.options = {
+		center: new google.maps.LatLng(-34.397, 150.644),
+		zoom: 8,
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+	};
+
+	/* Initialize map */
+	this.initialize = function(options){
+		if(typeof(options) != "undefined") this.options = $.extend(this.options, options);
+
+		this.map = new google.maps.Map(document.getElementById("map"),this.options);
+		this.markers = new Array();
+
+		RadddarMap.reload_markers();
+
+		$(document).bind("member_added",function(data){
+			RadddarMap.reload_markers();
+		});
+
+		$(document).bind("member_removed",function(data){
+			RadddarMap.reload_markers();
+		});
+		
+	};
+
+	/* Reload markers from list */
+	this.reload_markers = function(){
+		this.remove_all_markers();
+		var users = User.live_users_from_list();
+		for(var i in users){
+			this.add_user_marker(users[i]);
+		};
+	}
+
+	/* Make marker for user */
+	this.build_marker_for = function(user){
+		var bg_image_str = {
+			male: '<%= asset_path("box_r.png") %>',
+			female: '<%= asset_path("box_c.png") %>',
+			none: '<%= asset_path("box_b.png") %>'
+		};
+
+		/* CHANGE this and you DIE on the SPOT */
+		var bg_image = new google.maps.MarkerImage(bg_image_str[user.gender],
+			new google.maps.Size(52,63),
+			new google.maps.Point(0, 0), 	// Origin
+			new google.maps.Point(26, 62) 	// Anchor
+		);
+
+		var user_image = new google.maps.MarkerImage(user.image,
+			new google.maps.Size(48, 48),
+			new google.maps.Point(0, 0),	// Origin
+			new google.maps.Point(24, (48+11)) 	// Anchor
+		);
+
+		return {
+			bg_image: bg_image,
+			image:user_image
+		};
+	};
+
+	/* Add marker to map */
+	this.add_user_marker = function(user){
+		var loc = new google.maps.LatLng(user.loc[0],user.loc[1]);
+		var images = this.build_marker_for(user);
+
+		var marker = new google.maps.Marker({
+		  position: loc,
+		  map: RadddarMap.map,
+		  icon: images.image,
+		  shadow: images.bg_image,
+		  title: user.to_s,
+		  id: user.id
+		});
+
+		this.markers.push(marker);
+		marker.setMap(this.map);
+
+		google.maps.event.addListener(marker,'click',RadddarMap.marker_click);
+	};
+
+	/* Remove all markers */
+	this.remove_all_markers = function(){
+		if(this.markers){
+			for(var i in this.markers){
+				this.markers[i].setMap(null);
+			};
+			this.markers = new Array();
+		};
+	};
+
+	/* Remove marker from map */
+	this.remove_marker = function(data){
+
+	};
+
+	/* Move to point */
+	this.move_to_point = function(data){
+		if(data.length!=2) return;
+		var point = new google.maps.LatLng(data[0],data[1]);
+  		this.map.setCenter(point);
+	};
+
+	/* Move and save point to current location */
+	this.move_to_point_and_save = function(data){
+		CurrentUser.set({loc:data},function(n_data){
+			RadddarMap.move_to_point(n_data.loc);
+		});			
+	};
+
+	this.find_marker = function(marker){
+		if(this.markers.length == 0) return null;
+		for(var i in this.markers){
+			if(marker.latLng.equals(this.markers[i].position)){
+				return this.markers[i];
+			};
+		};
+	};
+
+	/* Marker click */
+	this.marker_click = function(data){
+		var user_marker = RadddarMap.find_marker(data);
+		var user = User.from_list(user_marker);
+		if(user != null && typeof(user) != "undefined"){
+			$(document).trigger({
+				type:"marker_clicked",
+				member: user
+			});
+		};
+	};
+};

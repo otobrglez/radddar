@@ -93,6 +93,32 @@ describe User do
 			john.swap.to_a.should == [john]
 		end
 
+		it "should do the textual swap" do
+			swap = oto.swap(200*1000).to_a
+			swap.should == [oto,miha,grega,ana]
+
+			swap.last.gender.should == "female"
+			swap.first.gender.should == "male"
+
+			oto.should respond_to :swap_stat
+			te = oto.swap_stat(200*1000)
+			te.should =~ /2\ males/ # not me
+			te.should =~ /1\ female/
+		end
+
+		it "also calculates distance from origin point" do
+			list = oto.swap(200*1000).to_a
+			list.should == [oto,miha,grega,ana]
+
+			list.last.should respond_to :distance
+			list.last.distance.should_not be_nil
+			
+			list[1].distance.should < list.last.distance
+
+			list.last.should respond_to :distance_to_human
+			list.last.distance_to_human.should =~ /(\d) km/
+		end
+
 		it "should ignore records older than 7 days" do
 			ana.updated_at = 14.days.ago
 			ana.save
@@ -101,6 +127,45 @@ describe User do
 			pa.name.should == "Ana"
 
 			oto.swap(200*1000).to_a.should == [oto,miha,grega]
+		end
+
+		it "should tell us about sex ;) " do
+			list = oto.swap(200*1000).to_a
+			list.should == [oto,miha,grega,ana]
+
+			test_stat = {
+				female: 0,
+				male: 0,
+				none: 0
+			}
+
+			User.stat_to_human(test_stat).should == "Nobody is around you."
+
+			User.stat_to_human(test_stat.merge({male:1})).should == "There is 1 male around you."
+			User.stat_to_human(test_stat.merge({male:2})).should == "There are 2 males around you."
+			User.stat_to_human(test_stat.merge({male:10})).should == "There are 10 males around you."
+
+			User.stat_to_human(test_stat.merge({female:2})).should == "There are 2 females around you."
+			
+			User.stat_to_human(test_stat.merge({male:1,female:1})).should == "There is 1 female and 1 male around you."
+			User.stat_to_human(test_stat.merge({male:2,female:2})).should == "There are 2 females and 2 males around you."
+			
+			User.stat_to_human(test_stat.merge({male:2,female:2,none:1})).should == "There are 2 females, 2 males and 1 UFO around you."
+			User.stat_to_human(test_stat.merge({male:2,female:2,none:2})).should == "There are 2 females, 2 males and 2 UFOs around you."
+
+			User.stat_to_human(test_stat.merge({male:10,female:10,none:10})).should == "There are 10 females, 10 males and 10 UFOs around you."
+
+=begin
+			puts " "
+			[0,1,10].each do |m|
+				[0,1,10].each do |f|
+					[0,1,10].each do |n|
+						pom = User.stat_to_human({male:m,female:f,none:n})
+						puts "\"#{m}\",\"#{f}\",\"#{n}\",\"#{pom}\""
+					end
+				end
+			end
+=end
 		end
 
 		it "should brake swap if its out of range" do
@@ -287,6 +352,10 @@ describe User do
 			hash.keys.should include "updated_at"
 
 			hash.keys.should include "providers"
+			hash.keys.should include "distance"
+
+			hash.keys.should include "private_channel"
+			hash["private_channel"].should =~ /private\-/
 		end
 	end
 end

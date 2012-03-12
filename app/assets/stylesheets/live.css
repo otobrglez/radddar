@@ -1,0 +1,28 @@
+/*
+ *= require_self
+*/
+
+
+html,body,h1,h2,h3{
+	margin:0px;
+	padding:0px;
+}
+
+body,td,th,p{
+	font-family:helvetica, sans-serif;
+	font-size:12px;
+}
+
+h1{
+	font-weight:normal;
+}
+
+body{
+	text-align:center;
+}
+
+.main{
+	max-width:800px;
+	text-align:left;
+	margin:0 auto;
+}

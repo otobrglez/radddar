@@ -1,11 +1,14 @@
 class AppController < ApplicationController
 
+  include ActionView::Helpers::JavaScriptHelper
+
 	respond_to :html, :only => [:app, :landing]
-  respond_to :js, :json
+  respond_to :js
+  respond_to :json
 
 	layout 'app'
 
-	before_filter :check_user_auth, :except => [:landing]
+	before_filter :check_user_auth, :except => [:landing, :live]
 
 	# Landing page
 	def landing
@@ -14,9 +17,14 @@ class AppController < ApplicationController
   end
 
 	# The app
-	def app 
+	def app; end
 
-	end
+  # The live
+  def live
+
+    @users = User.all
+    render :live, :layout => "live"
+  end
 
   # Return user
   def profile
@@ -30,10 +38,14 @@ class AppController < ApplicationController
 
   # Profile update
   def profile_update
-    # TODO sex change trigger swap
     current_user.update_attributes(params[:user])
-    current_user.save if current_user.valid?
-    return render :json => current_user.to_json
+    
+    if current_user.valid?
+      current_user.save
+      current_user.trigger_swap_event "status-update_swap", current_user
+    end
+
+    return render :json => current_user
   end
 
   # Status form
@@ -56,11 +68,26 @@ class AppController < ApplicationController
     
     if current_user.valid?
       current_user.save
+      # EVENT
       return render "app/user/status_reload"
     end
 
     respond_with(current_user) do |f|
       f.js { render "app/user/status_form" }
+    end
+  end
+
+  # Swap the shit
+  def swap
+    respond_to do |f|
+      f.json do 
+        render :json => {
+          live_list_html: (render_to_string(
+            partial: "app/map/live_list", locals:{user: current_user})),
+          stat_html: (render_to_string(
+            partial: "app/stat"))
+        }
+      end
     end
   end
 

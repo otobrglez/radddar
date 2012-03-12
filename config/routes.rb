@@ -5,10 +5,12 @@ Radddar::Application.routes.draw do
 
   # The Radddar App ;)
   match '/app', :to => "app#app", :as => "app"
+  match '/live', :to => "app#live", :as => "live"
 
   # Signin / Signout
   match '/auth/:provider/callback', :to => 'sessions#callback', :as => "auth"
   match '/signout', :to => 'sessions#destroy', :as => 'signout'
+  match '/auth', :to => "sessions#pusher_auth", :as => "pusher_auth"
 
   # Current user
   match '/current_user', :to => "app#current_user_action", :as => "current_user"
@@ -21,6 +23,7 @@ Radddar::Application.routes.draw do
 
   # Users
   match '/profile/:id', :to => "app#profile", :as => "profile"
+  match '/swap', :to => "app#swap", :as => "swap"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

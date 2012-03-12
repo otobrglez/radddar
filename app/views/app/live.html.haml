@@ -1,0 +1,11 @@
+%h1 RADDDAR Live
+
+%h2 Users
+
+%table
+	- @users.sort_by!(&:updated_at).each do |user|
+		%tr
+			%td=image_tag user.image
+			%td=user
+			%td=user.updated_at
+			

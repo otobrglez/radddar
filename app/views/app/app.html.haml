@@ -1,4 +1,6 @@
-#map{style:"display:none;"}=" "
+#map=" "
+
+-# #map{:style=>"display:none"}=" "
 
 #app
 	.slogan
@@ -18,8 +20,9 @@
 
 	.tabs
 		.chat.screen=render "app/chat/list"
-		.radddar.screen="radddar"
-		.radddar-list.screen="radddar_list"
-		.profile.screen.active=render partial:"app/user/profile", locals:{user: current_user}
-		.about.screen="about radddar"
+		.radddar.screen.active=render "app/map/list"
+		.profile.screen=render partial:"app/user/profile", locals:{user: current_user}
+		.member_profile.screen
+			%p Loading...
+		.about.screen=render "app/about"
 

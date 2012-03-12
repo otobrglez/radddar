@@ -1,4 +1,4 @@
-=render "app/stat"
+.stat=render "app/stat"
 
 .profile_header{:class=>(current_user.gender=="" or current_user.gender.nil?)? "none": current_user.gender }
 
@@ -17,6 +17,8 @@
 					=link_to "Save", "#status_save"
 					|
 					=link_to "Cancel", "#status_cancel"
+			.loc
+				=link_to "Refresh location", "#refresh_location"
 %ul
 	%li.name
 		%span.label Name

@@ -1,22 +1,70 @@
 !!!
 %html
 	%head
-		%title radddar
+		%title RADDDAR - Who's on your?
 
 		= stylesheet_link_tag    "landing", :media => "all"
 		= javascript_include_tag "landing"
 		= csrf_meta_tags
 
+		%meta(name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no")
+
 	%body
+		=render partial: 'landing_facebook'
 
-		- if flash[:notice]
-			%p=flash[:notice]
+		.video.off
+			.video-wrap
+				-# 
+					%iframe(width="853" height="480" src="http://www.youtube.com/embed/ApHpgL5aQYk?rel=0" frameborder="0" allowfullscreen)=""
+				
+				%embed(id="ytplayer" width="853" height="480" allowfullscreen="true" allowscriptaccess="always" quality="high" bgcolor="#000000" name="ytplayer" style="" src="http://www.youtube.com/v/ApHpgL5aQYk?enablejsapi=1&version=3&playerapiid=ytplayer" type="application/x-shockwave-flash")
 
+				%a.video-toggle(href="#video-toggle") Close video
 
-		%p This is landing page...
+		.wrap
+			.inner_wrap
+				.logo=link_to "RADDDAR - Who's on your?", root_url
+				.play_video
+					%a.video-toggle(href="#video-toggle") See the video
+				.content
+					.left
+						.left-wrap
+							%h1
+								What is it
+							%p
+								Raddddar is a web based app where you can easily see and connect with people around you. It’s a service based on coincidence and location. Just a simple opportunity, to meet people near you.
+							%h1
+								Get a reminder
 
+					.center
+						.center-wrap#screens
+							%ul{:style=> "width:#{10*212}px"}
+								- 0.upto(9) do |i|
+									%li{:class => ((i==0)?"active":" ") }
+										=image_tag "radddar_mockup_6-02_s.jpg"
+					.right
+						.right-wrap
+							%ul
+								%li No feed.
+								%li No followers.
+								%li No walls.
+								%li No personal details.
+								%li Free.
+			.footer
+				.footer-wrap
+					%table{:style=>"margin:0 auto; border-collapse:collapse"}
+						%tr
+							%td{:style => "padding-top:5px;"}
+								=render partial: 'landing_twitter'
+							%td
+								%div(class="fb-like" data-href="http://radddar.com" data-send="false" data-layout="button_count" data-width="80" data-show-faces="true" data-colorscheme="dark")=" "
+					&copy;
+					=link_to "VBG", "http://www.vbg.si"
+					\/
+					=link_to "Contact"
 
-		-unless signed_in?
-			=link_to "Facebook login", "/auth/facebook"
-			|
-			=link_to "Twitter login", "/auth/twitter"
+		-#
+			-unless signed_in?
+				=link_to "Facebook login", "/auth/facebook"
+				|
+				=link_to "Twitter login", "/auth/twitter"

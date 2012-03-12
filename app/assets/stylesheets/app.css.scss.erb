@@ -43,7 +43,6 @@ body{
 #app{
 	background-image:url('<%=asset_path "bg.jpg" %>');
 
-
 	position:absolute;
 	top:0px;
 	z-index:10;
@@ -92,13 +91,11 @@ body{
 				background-position: center 0px;
 				background-repeat:no-repeat;
 				text-align:center;
-				
 				padding:0px;
 				padding-top:30px;
 				font-weight:normal;
 				margin-top:5px;
 				margin-bottom:0px;
-
 				border-right:1px dotted #666;
 				font-size:12px;
 			}
@@ -157,7 +154,6 @@ body{
 		li.about a.active{
 			background-image:url('<%= asset_path "settings_b.png" %>');
 		}
-
 	}
 
 	.tabs{
@@ -185,11 +181,10 @@ body{
 		}
 	
 		/* Screens */
-
 		.profile{
 
 			.profile_header{
-				margin-top:5px;
+				margin-top:7px;
 
 				.live_status_field{
 					.status_field,
@@ -197,6 +192,7 @@ body{
 						textarea{
 							width:99%;
 							border:none;
+							padding:3px;
 						}
 						margin-bottom:6px;
 						background-image:url("<%= asset_path 'status_down_b.png' %>");
@@ -254,6 +250,8 @@ body{
 					margin-bottom:6px;
 				}
 
+				.status_tools .loc,
+				.status_tools .loc a,
 				.status_tools .status,
 				.status_tools .status a{
 					font-family: steelfish;
@@ -376,6 +374,77 @@ body{
 			}
 		}
 	}
+
+	.list{
+		margin:5px;
+
+		ul,li{
+			list-style:none;
+			padding:0px;
+			margin:0px;
+		}
+
+		li{
+			position:relative;
+			border-top:1px dotted white;
+			line-height:50px;
+			height:50px;
+		}
+
+		li:first-child { border:none; }
+	}
+
+	.live_list li.user {
+		padding-left:40px;
+
+		.name{}
+		.name, .distance{
+			font-family: steelfish;
+			font-size:25px;
+			text-transform:uppercase;
+
+			float:left;
+			display:inline-block;
+		}
+
+		.distance{ float:right; }
+
+		.image{
+			position:absolute;
+			left:0px;
+			top:9px;
+
+			background-color:black;
+			display:inline-block;
+			width:29px;
+			height:29px;
+			overflow:hidden;
+			border-radius:2px;
+
+			img{
+				margin:3px;
+				width:23px;
+				height:23px;
+			}
+		}
+	}
+
+	li.user.on{
+		background-color:white;
+		color:black;
+		a{ color:black; }
+	}
+	li.user.off{
+		background-color:none;
+	}
+
+	li.user.male .image{
+		background-color:#65D7DE;
+	}
+
+	li.user.female .image{
+		background-color:#DE6C65;
+	}
 }
 
 #map{
@@ -420,6 +489,19 @@ body{
 		z-index:20;
 		left:0px;
 		width:320px;
+
+		/*
+		.live_list li.user{
+
+			height: 58px;
+			line-height: 58px;
+
+			.image img{
+				width:48px;
+				height:48px;
+			}
+		}
+		*/
 	}
 
 	#app .tabs-nav{
@@ -436,6 +518,8 @@ body{
 		top:0px;
 		overflow:hidden;
 	}
+
+	
 }
 
 
