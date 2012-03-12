@@ -38,10 +38,12 @@
 
 					.center
 						.center-wrap#screens
-							%ul{:style=> "width:#{10*212}px"}
-								- 0.upto(9) do |i|
-									%li{:class => ((i==0)?"active":" ") }
-										=image_tag "radddar_mockup_6-02_s.jpg"
+							%ul{:style=> "width:#{5*212}px"}
+								%li.active=image_tag "radddar_mockup_6-02_s.jpg"
+								%li=image_tag "radddar_mockup_6-03_s.jpg"
+								%li=image_tag "radddar_mockup_6-04_s.jpg"
+								%li=image_tag "radddar_mockup_6-05_s.jpg"
+								%li=image_tag "radddar_mockup_6-06_s.jpg"	
 					.right
 						.right-wrap
 							%ul
