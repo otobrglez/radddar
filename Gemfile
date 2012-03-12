@@ -5,10 +5,6 @@ gem 'rails', '3.2.1'
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
-
-  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # gem 'therubyracer'
-
   gem 'uglifier', '>= 1.0.3'
 end
 
@@ -37,7 +33,6 @@ gem 'omniauth-twitter'
 gem 'rabl'
 gem 'pry-rails', :group => :development
 
-
 group :development, :test do
 	gem 'rspec'
 	gem 'rspec-rails'
@@ -49,7 +44,7 @@ group :development, :test do
 
 	gem 'spork', '~> 1.0rc'
 	gem 'growl'
-  	gem 'spork-rails'
+ 	gem 'spork-rails'
 
  	gem 'rb-fsevent', :require => false if RUBY_PLATFORM =~ /darwin/i
 	gem 'guard-livereload'
