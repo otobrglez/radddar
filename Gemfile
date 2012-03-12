@@ -47,7 +47,7 @@ group :development, :test do
  	gem 'spork-rails'
 
  	gem 'guard-livereload'
- 	gem 'rb-fsevent', :require => false if RUBY_PLATFORM =~ /darwin/i
+ 	# gem 'rb-fsevent', :require => false if RUBY_PLATFORM =~ /darwin/i
 	
 	#gem 'jasmine'
 	#gem 'jasminerice'
