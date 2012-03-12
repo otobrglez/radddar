@@ -46,9 +46,9 @@ group :development, :test do
 	gem 'growl'
  	gem 'spork-rails'
 
+ 	gem 'guard-livereload'
  	gem 'rb-fsevent', :require => false if RUBY_PLATFORM =~ /darwin/i
-	gem 'guard-livereload'
-
+	
 	#gem 'jasmine'
 	#gem 'jasminerice'
 	
