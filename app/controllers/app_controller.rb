@@ -8,16 +8,36 @@ class AppController < ApplicationController
 
 	layout 'app'
 
-	before_filter :check_user_auth, :except => [:landing, :live]
+	before_filter :check_user_auth, :except => [:landing, :live, :reminder]
 
 	# Landing page
 	def landing
 		return redirect_to(app_url) if signed_in?
+
+    @reminder = Reminder.new
 		render :landing, :layout => false
   end
 
 	# The app
 	def app; end
+
+  # Set reminder
+  def reminder
+    
+    @reminder = Reminder.new
+    unless params[:reminder].nil? or params[:reminder][:email].nil?
+      @reminder.email = params[:reminder][:email] 
+    end
+
+    if @reminder.valid?
+      ReminderMailer.thanks_for_signup(@reminder).deliver
+      ReminderMailer.new_reminder(@reminder).deliver
+    end
+
+    respond_with(@reminder) do |f|
+      f.js{ render "reminder" }
+    end
+  end
 
   # The live
   def live

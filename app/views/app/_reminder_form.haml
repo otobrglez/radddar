@@ -1,0 +1,13 @@
+=form_for @reminder, :remote => true, :url => reminder_path do |f|
+	- unless f.object.email.nil?
+		=f.text_field :email
+	- else
+		=f.text_field :email, :value => "your email please"
+
+- if @reminder.errors.any?
+	- @reminder.errors.full_messages.each do |msg|
+		%p.error="#{msg}!"
+
+
+- if @reminder.valid?
+	%p.info Thanks for your email!

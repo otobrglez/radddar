@@ -2,6 +2,7 @@ Radddar::Application.routes.draw do
 
   # Landing page
   root :to => "app#landing"
+  match '/reminder', :to => "app#reminder", :as => "reminder"
 
   # The Radddar App ;)
   match '/app', :to => "app#app", :as => "app"
