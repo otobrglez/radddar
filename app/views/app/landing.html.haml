@@ -19,8 +19,12 @@
 
 		%meta(name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no")
 
+		-if Rails.env == "production"
+			=render partial: "layouts/google_analytics"
+
 	%body
-		=render partial: 'landing_facebook'
+		-if Rails.env == "production"
+			=render partial: 'landing_facebook'
 
 		.video.off
 			.video-wrap
@@ -69,9 +73,15 @@
 					%table{:style=>"margin:0 auto; border-collapse:collapse"}
 						%tr
 							%td{:style => "padding-top:5px;"}
-								=render partial: 'landing_twitter'
+								-if Rails.env == "production"
+									=render partial: 'landing_twitter'
+								-else
+									%span [landing_twitter]
 							%td
-								%div(class="fb-like" data-href="http://radddar.com" data-send="false" data-layout="button_count" data-width="80" data-show-faces="true" data-colorscheme="dark")=" "
+								-if Rails.env == "production"
+									%div(class="fb-like" data-href="http://radddar.com" data-send="false" data-layout="button_count" data-width="80" data-show-faces="true" data-colorscheme="dark")=" "
+								-else
+									%span [facebook]
 							%td
 								&copy;
 								=link_to "VBG", "http://www.vbg.si"
