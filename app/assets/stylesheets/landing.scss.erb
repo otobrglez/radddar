@@ -8,6 +8,10 @@
 	src: url("<%= asset_path('wisdom_script.otf') %>");
 }
 
+html{
+	-webkit-text-size-adjust: none;
+}
+
 html,body{
 	margin:0;
 	padding:0;
@@ -268,6 +272,57 @@ div.wrap{
 		padding-left:10px;
 		padding-right:10px;
 		border-radius:7px;
+	}
+
+}
+
+@media only screen and (max-width:750px){
+	
+	.inner_wrap{
+		background:none;
+		height:auto;
+	}
+
+	.inner_wrap .play_video,
+	#screens,
+	.content .center{ display: none; }
+
+	.footer .footer-wrap{
+		border:none;
+	}
+
+	.inner_wrap .content{
+		margin-top:10px;
+
+		div.left{
+			float:none;
+			width:100%;
+			display: block;
+
+		}
+
+		div.right{
+			float:none;
+			width:100%;
+			display: block;
+
+			.right-wrap{
+				float: none;
+			}
+		}
+
+		div.left .left-wrap,
+		div.right .right-wrap{
+			width:80%;
+			margin:0 auto;
+			text-align:left;
+
+			input{
+				text-align:center;
+				width:96%;
+				margin-bottom:10px;
+			}
+		}
 	}
 
 }
