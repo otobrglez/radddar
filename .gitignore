@@ -22,3 +22,7 @@ mdb/
 
 # Foreman only local
 Procfile*
+
+# Assets
+public/assets
+!public/assets/manifest.yml

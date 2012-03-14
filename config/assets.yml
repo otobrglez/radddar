@@ -1,0 +1,5 @@
+s3_bucket: s3.radddar.com
+s3_access_key_id: <%= ENV['VBG_S3_KEY'] %>
+s3_secret_access_key: <%= ENV['VBG_S3_SECRET'] %>
+s3_upload_files:
+  - public/assets/**

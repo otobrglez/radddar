@@ -9,4 +9,4 @@ test:
   autocreate_indexes: true
 
 production:
-  uri: <%= ENV['MONGOLAB_URI'] %>
+  uri: <%= ENV['MONGOLAB_URI'] || ENV['RDR_MONGOLAB_URI'] %>

@@ -32,6 +32,7 @@ gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'rabl'
 gem 'pry-rails', :group => :development
+gem 'jammit-s3', :group => :development
 
 group :development, :test do
 	gem 'rspec'

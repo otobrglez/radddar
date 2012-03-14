@@ -1,8 +1,3 @@
-defaults: &defaults
-  app_id: '15773'
-  key: '4de3863f31584523334f'
-  secret: 'd015f59e382b32cd9142'
-
 development:
   app_id: '15774'
   key: '93fb931ce04a0d8ca4d9'
@@ -12,3 +7,8 @@ test:
   app_id: '15774'
   key: '93fb931ce04a0d8ca4d9'
   secret: 'eb3ebaff212add6c6d2c'
+
+production:
+  app_id: '15773'
+  key: '4de3863f31584523334f'
+  secret: 'd015f59e382b32cd9142'
