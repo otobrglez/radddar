@@ -55,11 +55,11 @@
 					.center
 						.center-wrap#screens
 							%ul{:style=> "width:#{5*212}px"}
-								%li.active=image_tag "s_2.jpg"
-								%li=image_tag "s_3.jpg"
-								%li=image_tag "s_4.jpg"
-								%li=image_tag "s_5.jpg"
-								%li=image_tag "s_6.jpg"	
+								%li.active=image_tag "radddar_mockup_7-02-1.jpg"
+								%li=image_tag "radddar_mockup_7-03-1.jpg"
+								%li=image_tag "radddar_mockup_7-04-1.jpg"
+								%li=image_tag "radddar_mockup_7-05-1.jpg"
+								%li=image_tag "radddar_mockup_7-06-1.jpg"
 					.right
 						.right-wrap
 							%ul
@@ -79,9 +79,16 @@
 									%span [landing_twitter]
 							%td
 								-if Rails.env == "production"
-									%div(class="fb-like" data-href="http://radddar.com" data-send="false" data-layout="button_count" data-width="80" data-show-faces="true" data-colorscheme="dark")=" "
+									%div(class="fb-like" data-href="http://www.facebook.com/pages/Radddar/259375980765458" data-send="false" data-layout="button_count" data-width="80" data-show-faces="true" data-colorscheme="dark")=" "
 								-else
 									%span [facebook]
+							%td
+
+								\/
+								=link_to "Twitter","http://twitter.com/myradddar"
+								\/
+								=link_to "Facebook", "http://www.facebook.com/pages/Radddar/259375980765458"
+								\/
 							%td
 								&copy;
 								=link_to "VBG", "http://www.vbg.si"
