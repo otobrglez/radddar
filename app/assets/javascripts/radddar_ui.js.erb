@@ -2,17 +2,24 @@
 
 $(function(){
 
+	/* Handle ajax errors */
+	$("#global_error").ajaxError(function(event,request,settings){
+		if(!$(this).is("visible"))
+			$(this).fadeIn("slow");
+	});
+
 	// Status form
 	$("#app .profile_header").radddar_status();
 	
 	// Get current user and establish private channel
 	CurrentUser.current_user(function(data){
-		var radddar_pusher = $("#app").radddar_pusher({
+		var settings = {
 			app_id:'<%= PUSHER["app_id"] %>',
 			key:'<%= PUSHER["key"] %>',
 			secret:'<%= PUSHER["secret"] %>',
-			user: data
-		});
+			user: data			
+		}
+		var radddar_pusher = $("#app").radddar_pusher(settings);
 	});
 	
 	// Load navigation
@@ -20,6 +27,8 @@ $(function(){
 
 	// Selector buttons for profile form
 	$("#app .selector").radddar_selector();
+
+	$("#app").radddar_chat();
 	
 	// Map magic
 	$("#map").radddar_map_engine();

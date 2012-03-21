@@ -22,14 +22,15 @@ var Status = new function(){
 
 			/* Mark users that are actualy online with white background (class=on) */
 			var push_list = User.members;
-			$("div.live_list .users li.on").removeClass("on");
+			/* div.live_list  */
+			$(".users li.on").removeClass("on");
 
 			
 			var live_list = User.users_from_list();
 			if(live_list.length != 0){
 				for(var i in live_list){
 					if(User.is_online(live_list[i])){
-						$("li.user[data-id='"+(live_list[i].id)+"']:first").addClass("on");
+						$("li.user[data-id='"+(live_list[i].id)+"']").addClass("on");
 					};
 				};
 			};

@@ -9,14 +9,21 @@
 		%ul
 			%li.back
 				%a(href="#back") BACK
+			%li.member_profile{:style => "display:none;"}
+				%a(href="#member_profile") MEMBER PROFILE
 			%li.chat
-				%a(href="#chat") CHAT
+
+				%a(href="#chat")
+					.alerts_wrap
+						%span.alerts=0
+					%span CHAT
 			%li.radddar
 				%a.active(href="#radddar") RADDDAR
 			%li.profile
 				%a(href="#profile") PROFILE
 			%li.about
 				%a(href="#about") ABOUT
+
 
 	.tabs
 		.chat.screen=render "app/chat/list"
@@ -26,3 +33,8 @@
 			%p Loading...
 		.about.screen=render "app/about"
 
+
+#global_error
+	.msg-wrap
+		.msg
+			Darn now you broke it. It seems you are unplugged. Radar has lost you. We can't find you on our satelite eather. Please make sure you are loged in and have location anabled.

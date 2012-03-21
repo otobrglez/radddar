@@ -76,7 +76,16 @@ class User
   # Distance in human words
   def distance_to_human
     number_to_human(distance.to_i,:units => :distance_short).to_s
-  end 
+  end
+
+  def distance_between user
+    return 0 if self.loc == user.loc
+    haversine_distance(self.loc, user.loc)
+  end
+
+  def distance_between_to_human user
+    number_to_human(distance_between(user).to_i,:units => :distance_short).to_s
+  end
 
   # Swap around user
   @@current_loc = nil
@@ -237,6 +246,13 @@ class User
     nil
   end
 
+  # Big image of user profile
+  def big_image
+    return image.gsub(/square/i, "large") if image =~ /facebook/ && image =~ /square/
+    return image.gsub(/normal/i, "original") if image =~ /twitter/ && image =~ /normal/
+    image
+  end
+
   # User birthday
   def birthday
     return self.birthday_custom unless self.birthday_custom.nil?
@@ -277,7 +293,6 @@ class User
 
   # Find or create user from omniauth
   def self.find_or_create auth
-
     current_location = nil
 
     if auth["provider"] =~ /(facebook|twitter)/i
@@ -339,7 +354,6 @@ class User
 
     #TODO: update token for provider!
 
-    
     if user.valid?
       user.updated_at = DateTime.now
       user.save
@@ -377,29 +391,37 @@ class User
   def to_data
       data = {
         id: id,
-        name: name,
+        #name: name,
         to_s: to_s,
-        image: image,
-        birthday: birthday,
-        age: age,
+        #image: image,      
+        #birthday: birthday,
+        #age: age,
         gender: gender_str,
         loc: loc,
         swap_range: swap_range,
-        status: status,
-        updated_at: updated_at
+        #status: status,
+        #updated_at: updated_at
       }
 
       Hash[(data.map{|i,v| "data-#{i}"}).zip(data.map{|i,v| v})]
   end
 
+  # Name of private channel
   def private_channel
     "private-#{id}"
   end
 
+  # Trigger pusher event
   def trigger_event event, data=nil
     Pusher[private_channel].trigger!(event, data)
   end
 
+  # Trigger event for someone
+  def trigger_event_for_user user, event, data=nil
+    Pusher[user.private_channel].trigger!(event,data)
+  end
+
+  # Swap event
   def trigger_swap_event event, data=nil
     users = self.swap
     unless users.empty?
@@ -409,31 +431,106 @@ class User
     end
   end
 
+  # Do the notification of user to user
+  def notify user
+    if self.can_notify? user
+      note = Note.new(:from => self, :to => user)
+      
+      if note.valid?
+        note.save 
+        trigger_event_for_user user, "notification-received", note
+        trigger_event "notification-sent", note
+        
+        return true
+      end
+
+      return false
+    end
+
+    false
+  end
+
+  # Can I notify this user?
+  def can_notify? user
+    return false if self.id == user.id
+    not notification_exists? user
+  end
+
+  # Does notification exists
+  def notification_exists? user
+    a = Note.exists?(:conditions => {:from_id => self.id, :to_id => user.id})
+    b = Note.exists?(:conditions => {:from_id => user.id, :to_id => self.id})
+    a or b
+  end
+
+  # This is users feed (under chat!)
+  def feed
+
+    out = {
+      chats: [],
+      notes: []
+    }
+
+    users = self.swap.to_a
+
+    unless users.empty?
+
+      users.each do |user|
+        if user.id != self.id # Swap returs itself also!
+          # Find notification that are pointed to user
+          note = Note.first(conditions: {:to_id => self.id, :from_id => user.id})
+          out[:notes] << note unless note.nil?
+        end
+      end
+
+      # Fix order
+      unless out[:notes].empty?
+        out[:notes].sort_by!(&:created_at).reverse!
+
+        out[:notes].map! do |note|
+          found_user = users.select{ |user_p| user_p.id == note.from_id }.first
+        
+          unless found_user.nil?
+            found_user.define_singleton_method :notified_at do
+              note.created_at 
+            end
+            found_user.define_singleton_method :stamp do
+              note.stamp
+            end
+          end
+
+          found_user
+        end
+      end
+    end
+
+    out
+  end
+
   # PI = 3.1415926535
-  RAD_PER_DEG = 0.017453293  #  PI/180
-  #Rmiles = 3956           # radius of the great circle in miles
-  Rkm = 6371              # radius in kilometers...some algorithms use 6367
-  #Rfeet = Rmiles * 5282   # radius in feet
-  Rmeters = Rkm * 1000    # radius in meters
+  RAD_PER_DEG = 0.017453293   # PI/180
+  # Rmiles = 3956             # radius of the great circle in miles
+  Rkm = 6371                  # radius in kilometers...some algorithms use 6367
+  # Rfeet = Rmiles * 5282     # radius in feet
+  Rmeters = Rkm * 1000        # radius in meters
 
   # haversine
-  private
-    def haversine_distance(a=[0,0],b=[0,0])
-      lat1,lon1=a[0],a[1]
-      lat2,lon2=b[0],b[1] 
+  def haversine_distance(a=[0,0],b=[0,0])
+    lat1,lon1=a[0],a[1]
+    lat2,lon2=b[0],b[1] 
 
-      dlon = lon2 - lon1
-      dlat = lat2 - lat1
-      dlon_rad = dlon * RAD_PER_DEG
-      dlat_rad = dlat * RAD_PER_DEG
-      lat1_rad = lat1 * RAD_PER_DEG
-      lon1_rad = lon1 * RAD_PER_DEG
-      lat2_rad = lat2 * RAD_PER_DEG
-      lon2_rad = lon2 * RAD_PER_DEG
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
+    dlon_rad = dlon * RAD_PER_DEG
+    dlat_rad = dlat * RAD_PER_DEG
+    lat1_rad = lat1 * RAD_PER_DEG
+    lon1_rad = lon1 * RAD_PER_DEG
+    lat2_rad = lat2 * RAD_PER_DEG
+    lon2_rad = lon2 * RAD_PER_DEG
 
-      a = Math.sin(dlat_rad/2)**2 + Math.cos(lat1_rad) * Math.cos(lat2_rad) * Math.sin(dlon_rad/2)**2
-      c = 2 * Math.asin( Math.sqrt(a))
+    a = Math.sin(dlat_rad/2)**2 + Math.cos(lat1_rad) * Math.cos(lat2_rad) * Math.sin(dlon_rad/2)**2
+    c = 2 * Math.asin( Math.sqrt(a))
 
-      Rmeters * c     # delta in meters
-    end
+    Rmeters * c     # delta in meters
+  end
 end

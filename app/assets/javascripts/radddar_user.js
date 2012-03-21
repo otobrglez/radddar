@@ -12,6 +12,10 @@ var User = new function(){
 				return callback(data);
 		});
 	};
+
+	this.load_profile = function(id,callback){
+		$.getScript("/profile/"+id+".js",callback);
+	};
 	
 	/* Add member to members list */
 	this.add_member = function(member,callback){
@@ -85,12 +89,12 @@ var User = new function(){
 			return $("li.user[data-id='"+(user)+"']:first");
 		};
 		return null;
-	}
+	};
 
 	this.from_list = function(user){
 		var us = this.jq_user_from_list(user);
 		if(us.length != 0) return us.data();
 		return null;
-	}
+	};
 
 };

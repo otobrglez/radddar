@@ -48,7 +48,10 @@ class AppController < ApplicationController
 
   # Return user
   def profile
-    respond_with(User.find(params[:id]))
+    @user = User.find(params[:id])
+    respond_with(@user) do |f|
+      f.js { render "app/user/profile" }
+    end
   end
 
   # Retuns current user
@@ -58,6 +61,11 @@ class AppController < ApplicationController
 
   # Profile update
   def profile_update
+
+    unless params[:user][:loc].nil?
+      params[:user][:loc] = params[:user][:loc].map(&:to_f)
+    end
+
     current_user.update_attributes(params[:user])
     
     if current_user.valid?
@@ -108,6 +116,32 @@ class AppController < ApplicationController
             partial: "app/stat"))
         }
       end
+    end
+  end
+
+  # Send notification
+  def notify
+    @user = User.find(params[:id])
+    current_user.notify(@user) if current_user.can_notify? @user
+    respond_with(@user) do |f|
+      f.js { render "app/user/notify" }
+    end
+  end
+
+  def remove_note
+    @note = Note.find_with_stamp(params[:stamp])
+    unless @note.nil?
+      @note.delete
+    end
+
+    respond_with(@note) do |f|
+      f.js { render "app/chat/reload_chat_feed"}
+    end
+  end
+
+  def reload_chat_feed
+    respond_with(current_user) do |f|
+      f.js { render "app/chat/reload_chat_feed"}
     end
   end
 

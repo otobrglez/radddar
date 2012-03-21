@@ -26,3 +26,7 @@ Procfile*
 # Assets
 public/assets
 !public/assets/manifest.yml
+
+# html
+/html
+html/

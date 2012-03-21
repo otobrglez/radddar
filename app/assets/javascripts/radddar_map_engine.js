@@ -29,13 +29,38 @@
 
 				/* This is for layout hack */
 				$(document).bind("nav:pre_tab_switch",function(e){
-					if(e.tab=="radddar"){$("#map").css("z-index",20); };
-					if(e.current_tab=="radddar"){$("#map").css("z-index",5); };
+					if(e.tab=="radddar"){ /* moving to radddar */
+						$("#map").css("z-index",20);
+					};
+
+					
+					if(e.tab!="radddar" && e.current_tab=="radddar"){ 
+						$("#map").css("z-index",5);
+					};
+					
 				});
+
+				/* When someone clicks on stat */
+				$(".stat a, .distance_between a").live("click",function(e){
+					if(e.preventDefault) e.preventDefault();
+					$(document).trigger({type:"move_to",tab:"radddar"});
+					$("#map").css("z-index",5);
+				});
+				
 
 				/* Reload location from browser */
 				$('.status_tools a[href^="#refresh_location"]').on("click",function(){
 					refresh_location_from_browser();
+				});
+
+				/* .live_list  */
+				$("li.user .name a, li.user .image a").live("click",function(e){
+					if(e.preventDefault) e.preventDefault();
+					var user = $(this).parents("li").data();
+					$(document).trigger({
+						type:"marker_clicked",
+						member: user
+					});
 				});
 
 				/* Init */
@@ -50,7 +75,6 @@
 					};
 
 					RadddarMap.initialize(options);
-				
 				});
 				
 

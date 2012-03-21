@@ -18,20 +18,51 @@
  				Pusher.channel_auth_endpoint = '/auth';
 				
 				Pusher.log = function(message) {
-      				return;
+      				// return;
       				if (window.console && window.console.log)
       					window.console.log(message);
     			};
 
  				this.pusher = new Pusher(this.options.key);
 
+ 				/* Handle pusher errors 
+ 				this.pusher.bind("pusher:error",function(event,data){
+					if(!$("#global_error").is("visible"))
+						$("#global_error").fadeIn("slow");
+ 				});
+
+ 				this.pusher.bind("pusher:connection_disconnected",function(data){
+					if(!$("#global_error").is("visible"))
+						$("#global_error").fadeIn("slow"); 					
+ 				});
+
+ 				*/
+
+ 				this.pusher.connection.bind('state_change', function(states) {
+ 					if(states.current == "disconnected" || states.current == "unavailable"){
+						if(!$("#global_error").is("visible"))
+							$("#global_error").fadeIn("slow"); 	
+ 					} else {
+						$("#global_error").fadeOut("slow"); 	
+ 					};
+ 				});
+
  				// Private channel for user
  				this.private_channel = this.pusher.subscribe(
  					this.options.user.private_channel);
 
+ 				this.private_channel.bind("pusher:subscription_error",function(status){
+					if(!$("#global_error").is("visible"))
+						$("#global_error").fadeIn("slow");
+ 				});
+
  				// Presence channel
  				this.presence_channel = this.pusher.subscribe("presence-radddar");
- 				
+  				this.presence_channel.bind("pusher:subscription_error",function(status){
+					if(!$("#global_error").is("visible"))
+						$("#global_error").fadeIn("slow");
+ 				});
+
  				//
  				this.presence_channel.bind("pusher:subscription_succeeded",function(members){
  					User.members = _.map(members._members_map,function(i,j){ return j; });
@@ -51,6 +82,10 @@
  				// Update swap information
  				this.private_channel.bind("status-update_swap",function(data){
  					Status.update_swap();
+ 				});
+
+ 				this.private_channel.bind("notification-received",function(data){
+ 					RadddarChat.notification_received(data);
  				});
  			};
 

@@ -119,6 +119,18 @@ describe User do
 			list.last.distance_to_human.should =~ /(\d) km/
 		end
 
+		it "should be able to say distance from who" do
+			list = oto.swap(200*1000).to_a
+			list.should == [oto,miha,grega,ana]
+
+			oto.should respond_to :distance_between
+			distance = oto.distance_between(miha)
+			distance.should_not be_nil		
+			
+			oto.should respond_to :distance_between_to_human
+			oto.distance_between_to_human(miha).should =~ /\d m/
+		end
+
 		it "should ignore records older than 7 days" do
 			ana.updated_at = 14.days.ago
 			ana.save
@@ -268,6 +280,49 @@ describe User do
 
 	end
 
+	context "user feed" do
+
+		let(:oto) { Factory.build :oto }
+		let(:miha) { Factory.build :miha }
+		let(:dejan){ Factory.build :dejan }
+
+		it "should have feed" do
+
+			oto.save
+			miha.save
+			dejan.save
+
+			oto.should_not be_nil
+			miha.should_not be_nil
+			oto.swap.to_a.should =~ [oto,miha,dejan]
+			miha.swap.to_a.should =~ [oto,miha,dejan]
+
+			oto.should respond_to :feed
+
+			otos_feed = oto.feed
+			otos_feed[:chats].should be_empty
+			otos_feed[:notes].should be_empty
+
+			oto.notify(miha).should == true
+			dejan.notify(miha).should == true
+
+			oto.feed[:notes].size.should == 0
+			dejan.feed[:notes].size.should == 0
+			miha.feed[:notes].size.should == 2
+
+			miha.feed[:notes].first.should == dejan
+			miha.feed[:notes].first.should respond_to :notified_at, :stamp
+
+			miha.feed[:notes].first.stamp =~ /(\w+)-(\w+)-(\d)/
+
+			miha.feed[:notes].last.should == oto
+
+			miha.notify(oto).should == false
+
+		end
+
+	end
+
 	context "omniauth integration" do
 
 		def read_json file_name
@@ -292,6 +347,11 @@ describe User do
 			user = User.find_or_create facebook_otobrglez
 			user.name.should =~ /oto\.brglez/
 			
+
+			user.should respond_to :big_image
+			user.big_image.should =~ /large/
+
+
 			# Image is taken from providers if not set
 			user.image.should =~ /graph\.facebook/i
 			user.image="dddd"
