@@ -1,10 +1,13 @@
 .distance_between{:class => @user.gender}
 	=link_to "#profile-title" do
-		%span.who
-			= @user
-			is
-			= @user.distance_between_to_human current_user
-		from your location
+		- if current_user != @user
+			%span.who
+				= @user
+				is
+				= @user.distance_between_to_human current_user
+			from your location
+		- else
+			This is you.
 
 - if not(@user.status.nil?) and @user.status != ""
 	.user_status{:class => @user.gender}
@@ -12,15 +15,16 @@
 			= @user.status	
 
 .member_profile_wrap
-	.profile_tools
-		=link_to chat_path(@user), :remote => true do
-			.chat_wrap
-				=image_tag 'chat.png'
+	- if current_user != @user
+		.profile_tools
+			=link_to chat_path(@user), :remote => true do
+				.chat_wrap
+					=image_tag 'chat.png'
 
-		-if current_user.can_notify? @user
-			.notify_wrap
-				=link_to notify_path(@user), :remote => true do
-					=image_tag 'notify.png'
+			-if current_user.can_notify?(@user)
+				.notify_wrap
+					=link_to notify_path(@user), :remote => true do
+						=image_tag 'notify.png'
 
 	- if not(@user.image.nil?) and @user.image != ""
 		.big_image

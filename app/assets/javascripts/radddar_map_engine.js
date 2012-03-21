@@ -13,7 +13,6 @@
 				  	return RadddarMap.move_to_point_and_save([
 				  		data.coords.latitude,
 				  		data.coords.longitude]);
-
 				  },function(data){
 				  	alert("No GEO information from you :/")
 				  });

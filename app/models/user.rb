@@ -24,7 +24,7 @@ class User
 
   # Range of my swap (200m default)
   field :swap_range, type: Integer, default: -> {
-	  User.allowed_swap_ranges.first
+	  User.allowed_swap_ranges.last
   }
 
   # Field status
@@ -391,9 +391,9 @@ class User
   def to_data
       data = {
         id: id,
-        #name: name,
+        name: name,
         to_s: to_s,
-        #image: image,      
+        image: image,      
         #birthday: birthday,
         #age: age,
         gender: gender_str,

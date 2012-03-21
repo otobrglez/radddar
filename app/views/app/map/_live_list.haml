@@ -10,3 +10,12 @@
 						.details
 							.name=link_to u, "#user-#{u.id}"
 							.distance=u.distance_to_human
+			-else
+				%li.user{u.to_data.merge!(:style=>"display:none")}
+					.user_line_wrap
+						-unless u.image.nil?
+							.image
+								=link_to image_tag(u.image), "#user-#{u.id}"
+						.details
+							.name=link_to u, "#user-#{u.id}"
+							.distance=u.distance_to_human

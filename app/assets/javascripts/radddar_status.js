@@ -25,18 +25,18 @@ var Status = new function(){
 			/* div.live_list  */
 			$(".users li.on").removeClass("on");
 
-			
 			var live_list = User.users_from_list();
+			RadddarMap.remove_all_markers();
 			if(live_list.length != 0){
 				for(var i in live_list){
 					if(User.is_online(live_list[i])){
 						$("li.user[data-id='"+(live_list[i].id)+"']").addClass("on");
+						RadddarMap.add_user_marker(live_list[i]);
 					};
 				};
 			};
 
-			if(typeof(callback) != "undefined")
-				callback(data);
+			if(typeof(callback) != "undefined") callback(data);
 		});
 	};
 

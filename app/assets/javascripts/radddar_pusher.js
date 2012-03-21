@@ -15,10 +15,11 @@
  			this.options = options
 
  			if(typeof(this.options.app_id)!="undefined"){ // Connect to Pusher
- 				Pusher.channel_auth_endpoint = '/auth';
+ 				Pusher.channel_auth_endpoint= '/auth';
 				
-				Pusher.log = function(message) {
-      				// return;
+				Pusher.log = function(message){
+      				return;
+
       				if (window.console && window.console.log)
       					window.console.log(message);
     			};
@@ -48,8 +49,7 @@
  				});
 
  				// Private channel for user
- 				this.private_channel = this.pusher.subscribe(
- 					this.options.user.private_channel);
+ 				this.private_channel = this.pusher.subscribe(this.options.user.private_channel);
 
  				this.private_channel.bind("pusher:subscription_error",function(status){
 					if(!$("#global_error").is("visible"))
@@ -71,12 +71,16 @@
 
  				// User joins
  				this.presence_channel.bind("pusher:member_added",function(member){
- 					User.add_member(member,Status.update_swap);
+ 					User.add_member(member,function(){
+ 						Status.update_swap();
+ 					});
  				});
 
  				// User leaves
  				this.presence_channel.bind("pusher:member_removed",function(member){
- 					User.remove_member(member,Status.update_swap);
+ 					User.remove_member(member,function(){
+ 						Status.update_swap();
+ 					});
  				});
 
  				// Update swap information

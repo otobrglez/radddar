@@ -1,12 +1,6 @@
 /* By Oto Brglez - <oto.brglez@opalab.com> */
 
 var RadddarChat = new function(){
-	/*
-	this.initialize = function(){
-		
-		
-	};
-	*/
 
 	this.reload_chat_feed = function(callback){
 		$.getScript("/reload_chat_feed.js",callback);
