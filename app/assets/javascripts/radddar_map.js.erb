@@ -41,13 +41,16 @@ var RadddarMap = new function(){
 		for(var i in users){
 			this.add_user_marker(users[i]);
 		};
+
+		/* Add me on top */
+
 	}
 
 	/* Make marker for user */
 	this.build_marker_for = function(user){
 		var bg_image_str = {
-			male: '<%= asset_path("box_r.png") %>',
-			female: '<%= asset_path("box_c.png") %>',
+			male: '<%= asset_path("box_c.png") %>',
+			female: '<%= asset_path("box_r.png") %>',
 			none: '<%= asset_path("box_b.png") %>'
 		};
 
