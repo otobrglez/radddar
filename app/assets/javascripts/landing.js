@@ -24,9 +24,7 @@ var move_slide = function(){
 
 
 $(function(){
-
 	timer = setTimeout("move_slide()",tick_time);
-
 	$("a.video-toggle").click(function(e){
 
 		if(e.preventDefault) e.preventDefault();
@@ -35,7 +33,6 @@ $(function(){
 		if($(".video").hasClass("off")){
 			$(".video").removeClass("off");
 			$(".video").fadeIn("slow");
-
 			if(myPlayer.playVideo) myPlayer.playVideo();
 		} else {
 			$(".video").addClass("off");

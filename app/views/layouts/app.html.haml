@@ -1,6 +1,8 @@
 !!!
 %html
 	%head
+		%title RADDDAR - Who's on your?
+
 		%meta(charset="utf-8")
 		-# %meta(name="viewport" content="width=device-width, initial-scale=1")
 		%meta(name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no")
@@ -14,6 +16,9 @@
 		=javascript_include_tag "app"
 
 		=csrf_meta_tags
+
+		-if Rails.env == "production"
+			=render partial: "layouts/google_analytics"
 	%body
 		.wrap
 			=yield

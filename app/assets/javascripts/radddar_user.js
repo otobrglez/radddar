@@ -53,11 +53,9 @@ var User = new function(){
 	this.is_online = function(member){
 		if(this.members.length == 0) return false;
 		if(typeof(member) == "object"){
-			if(this.members.indexOf(member.id) != -1)
-				return true;
+			if(this.members.indexOf(member.id) != -1) return true;
 		}else{
-			if(this.members.indexOf(member) != -1)
-				return true;
+			if(this.members.indexOf(member) != -1) return true;
 		};
 		return false;
 	};

@@ -32,6 +32,8 @@ var RadddarMap = new function(){
 		});
 		*/
 		
+
+		Status.update_swap();
 	};
 
 	/* Reload markers from list */
@@ -67,10 +69,7 @@ var RadddarMap = new function(){
 			new google.maps.Point(24, (48+11)) 	// Anchor
 		);
 
-		return {
-			bg_image: bg_image,
-			image:user_image
-		};
+		return { bg_image: bg_image, image:user_image };
 	};
 
 	/* Add marker to map */

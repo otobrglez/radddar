@@ -3,23 +3,39 @@
 <head>
   <title>We're sorry, but something went wrong (500)</title>
   <style type="text/css">
-    body { background-color: #fff; color: #666; text-align: center; font-family: arial, sans-serif; }
-    div.dialog {
-      width: 25em;
-      padding: 0 4em;
-      margin: 4em auto 0 auto;
-      border: 1px solid #ccc;
-      border-right-color: #999;
-      border-bottom-color: #999;
+
+    body,td,th,p{ font-family:sans-serif; }
+    body{ background-image:url("http://s3.radddar.com.s3.amazonaws.com/assets/bg.jpg"); }
+    body,html{ margin:0px; padding:0px; text-align:center; }
+    .wrap{ max-width:450px; margin:0px auto; margin-top:30%; }
+    .dialog p{ border-top:1px dotted white; color:white; padding:10px; margin:0px; }
+    .wrap .dialog{
+      padding-top:140px;
+      background-image:url("http://s3.radddar.com.s3.amazonaws.com/assets/radddar_offline.png");
+      background-position:top center;
+      background-repeat:no-repeat;
     }
-    h1 { font-size: 100%; color: #f00; line-height: 1.5em; }
+
   </style>
+
+  <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-686782-106']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+  </script>
 </head>
 
 <body>
-  <!-- This file lives in public/500.html -->
+  <div class="wrap">
   <div class="dialog">
-    <h1>We're sorry, but something went wrong.</h1>
+    <p>Everything is broken. Someohne called us and we are fixing the problem. Sorry do try again in a few minutes.</p>
+  </div>
   </div>
 </body>
 </html>
