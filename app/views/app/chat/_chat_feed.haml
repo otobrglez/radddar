@@ -13,9 +13,10 @@
 							.name
 								=link_to "#user-#{user_with_chat.id}" do
 									=user_with_chat.to_s
-									\-
-									=time_ago_in_words user_with_chat.last_message.created_at
-									ago
+									%span.created_at
+										\-
+										=time_ago_in_words user_with_chat.last_message.created_at
+										ago
 						
 						.alerts_wrap
 							%span.alerts=0
@@ -38,9 +39,10 @@
 							.name
 								=link_to "#user-#{user_with_note.id}" do
 									=user_with_note.to_s
-									\-
-									=time_ago_in_words user_with_note.notified_at
-									ago
+									%span.created_at
+										\-
+										=time_ago_in_words user_with_note.notified_at
+										ago
 						
 						.tools="Note"
 
