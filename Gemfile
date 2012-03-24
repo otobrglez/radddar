@@ -35,6 +35,8 @@ gem 'rabl'
 gem 'pry-rails', :group => :development
 gem 'jammit-s3', :group => :development
 
+gem 'airbrake'
+
 group :development, :test do
 	gem 'rspec'
 	gem 'rspec-rails'
