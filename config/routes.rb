@@ -34,7 +34,10 @@ Radddar::Application.routes.draw do
 
   # Chat
   match '/reload_chat_feed', :to => "app#reload_chat_feed", :as => "reload_chat_feed"
+  
   match '/chat/:id', :to => "app#chat", :as => "chat"
+  match '/message/:id', :to => "app#message", :as => "message"
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

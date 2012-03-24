@@ -1,0 +1,9 @@
+.top_info
+	YOU AND
+	%span{:class => @user.gender_str}=@user
+
+.chats-wrap
+	.messages
+		%ul
+			- @messages.reverse.each do |message|
+				= render :partial => "app/chat/message", :locals => {:message => message}

@@ -11,8 +11,9 @@
 				%a(href="#back") BACK
 			%li.member_profile{:style => "display:none;"}
 				%a(href="#member_profile") MEMBER PROFILE
+			%li.chats{:style => "display:none;"}
+				%a(href="#member_profile") CHATS	
 			%li.chat
-
 				%a(href="#chat")
 					.alerts_wrap
 						%span.alerts=0
@@ -30,10 +31,15 @@
 		.profile.screen=render partial:"app/user/profile", locals:{user: current_user}
 		.member_profile.screen
 			%p Loading...
+		.chats.screen
+			.chats-wrap
+				%ul.live-chat-list=" "
 		.about.screen=render "app/about"
-
 
 #global_error
 	.msg-wrap
 		.msg
 			Darn now you broke it. It seems you are unplugged. Radddar has lost you. We can't find you on our satelite eather. Please make sure you are loged in and have location anabled.
+			%br/
+			%br/
+			%strong=link_to "... or reload RADDDAR.", app_path

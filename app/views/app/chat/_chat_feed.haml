@@ -2,6 +2,26 @@
 - if !@feed[:notes].empty? or !@feed[:chats].empty?
 	.users
 		%ul
+			- @feed[:chats].each do |user_with_chat| 
+				%li.chat.user{user_with_chat.to_data.merge!(:class=>[user_with_chat.gender,"off"])}
+					.user_line_wrap
+
+						-unless user_with_chat.image.nil?
+							.image=link_to image_tag(user_with_chat.image), "#user-#{user_with_chat.id}"
+
+						.details
+							.name
+								=link_to "#user-#{user_with_chat.id}" do
+									=user_with_chat.to_s
+									\-
+									=time_ago_in_words user_with_chat.last_message.created_at
+									ago
+						
+						=link_to "Chat with #{user_with_chat}", chat_path(user_with_chat), :remote => true, :class => "tools"
+
+						-#
+							.remove=link_to "Remove", remove_note_path(user_with_chat.stamp), :method => :delete, :remote => true
+
 			- @feed[:notes].each do |user_with_note|
 				%li.note.user{user_with_note.to_data.merge!(:class=>[user_with_note.gender, "off" ])}
 					.user_line_wrap

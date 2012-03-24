@@ -11,7 +11,7 @@ describe User do
 
 	specify{ user.should respond_to :status }
 
-	specify{ user.swap_range.should == 200}
+	specify{ user.swap_range.should == User.allowed_swap_ranges.last}
 
 	it "users factories" do
 		user_x = build(:oto)
@@ -81,7 +81,7 @@ describe User do
 			oto.should respond_to :swap
 
 			# 200 m
-			oto.swap.to_a.should == [oto,miha]
+			oto.swap(User.allowed_swap_ranges.first).to_a.should == [oto,miha]
 
 			# 1km
 			oto.swap(1000).to_a.should == [oto,miha,grega]

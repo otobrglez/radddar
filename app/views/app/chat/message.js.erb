@@ -1,0 +1,3 @@
+RadddarChat.message_sent(<%= raw @user.to_json %>,
+'<%= j render :partial => "app/chat/message", :locals => {:message => @message} %>',
+'<%= j render "app/chat/message_form" %>');

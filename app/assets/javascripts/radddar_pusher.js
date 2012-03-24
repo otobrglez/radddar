@@ -88,9 +88,21 @@
  					Status.update_swap();
  				});
 
+ 				/* This happens when somebody sends notification */
  				this.private_channel.bind("notification-received",function(data){
  					RadddarChat.notification_received(data);
  				});
+
+ 				/* Message sent */
+ 				this.private_channel.bind("message-sent",function(data){
+
+ 				});
+
+ 				/* Message received */
+ 				this.private_channel.bind("message-received",function(data){
+ 					alert(data);
+ 				});
+
  			};
 
  			/*

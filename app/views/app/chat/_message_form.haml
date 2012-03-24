@@ -1,0 +1,8 @@
+.message-form-wrap
+	=form_for @message, :url => message_path(@user), :remote => true do |f|
+		- if f.object.errors.any?
+			- f.object.errors.full_messages.each do |error|
+				%span.error=error
+
+		=f.submit "Send", :class => "send"
+		=f.text_area :body, :rows => 2, :class => "message_body"

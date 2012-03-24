@@ -2,14 +2,81 @@
 
 var RadddarChat = new function(){
 
+	/* Reload feeds */
 	this.reload_chat_feed = function(callback){
 		$.getScript("/reload_chat_feed.js",callback);
 	};
 
+	/* Load chat and exceture remote */
+	this.get = function(user,callback){
+		var who = user;
+		if(typeof(user) == "object") who = user.id;
+		$.getScript("/chat/"+who+".js",callback);
+	};
+
+	/* When someone sends notification */
 	this.notification_received = function(data){
 		this.reload_chat_feed(function(){
 			RadddarAlerts.add_alert();
 		});
+	};
+
+	/* Open chat if its not open */
+	this.is_open = function(user){
+		var who = (typeof(user)=="object")?user.id:user;
+		return $(".tabs .chats ul li.live-chat[data-id='"+who+"']").length==0?false:true;
+	};
+
+	/* Get active chat */
+	this.active_chat = function(){
+		var chat = $(".tabs .chats ul li.live-chat.act");
+		if(chat.length != 0) return chat.data("id");
+		return false;
+	};
+
+	this.get_chat = function(user){
+		var who = (typeof(user)=="object")?user.id:user;
+		return $(".tabs .chats ul li.live-chat[data-id='"+who+"']");
+	};
+
+	/* Open chat */
+	this.open_chat = function(user,messages_html,message_form,move_to){
+		var who = (typeof(user)=="object")?user.id:user;
+
+		if(this.is_open(who)){
+			var current_chat = $(".tabs .chats ul li.live-chat[data-id='"+who+"']");
+			$(".messages-wrap",current_chat).html(messages_html);
+			$("li.live-chat").removeClass("act");
+			current_chat.addClass("act");
+
+			//TODO: magic with message form
+		} else {
+			var chats = $(".tabs .chats ul.live-chat-list");
+			var chat = $('<li class="live-chat act" data-id="'+who+'">'+
+				'<div class="messages-wrap"></div>'+
+				'<div class="message-form"></div></li>');
+			$(".messages-wrap",chat).append(messages_html);
+			$(".message-form",chat).append(message_form);
+			$("li.live-chat").removeClass("act");
+			chat.appendTo(chats);
+		};
+
+		if(typeof(move_to) != "undefined" && move_to==true)
+			$(document).trigger({type:"move_to",tab:"chats"});
+	};
+
+	/* Triggered when message is sent */
+	this.message_sent = function(user,message_html,message_form){
+		var who = (typeof(user)=="object")?user.id:user;
+
+		if(this.is_open(who)){
+			var chat = $(".tabs .chats ul li.live-chat[data-id='"+who+"']");
+			var messages = $("ul",chat);
+			$(message_html).appendTo(messages);
+
+			$(".message-form").html(message_form);
+			$(".message_body",chat).val("");
+		};
 	};
 };
 
@@ -28,11 +95,30 @@ var RadddarChat = new function(){
 					2) reload feeds
 				*/
 
+				$(".message_body").live("keyup",function(e){
+					// if(e.preventDefault) e.preventDefault();
+					var c = e.which ? e.which : e.keyCode;
+					if(c==13){
+						$(this).parents("form").trigger("submit");
+					};
+				});
+
+				/* Before moving to chat tab */
 				$(document).bind("nav:pre_tab_switch",function(e){
 					if(e.tab=="chat"){
 						RadddarChat.reload_chat_feed(function(){
 							RadddarAlerts.remove_alerts();
 						});
+					};
+				});
+
+				/* Offline users can not receive messages */
+				$(document).bind("nav:post_tab_switch",function(e){
+					if(e.current_tab=="chats"){
+						var user = RadddarChat.active_chat();
+						if(user==false) return;
+						var chat = RadddarChat.get_chat(user).removeClass("offline");
+						if(!User.is_online(user)) chat.addClass("offline");
 					};
 				});
 

@@ -5,7 +5,9 @@ var RadddarHistory = new function(){
 };
 
 var RadddarNavigation = new function(){
-	
+	this.current_content_tab=function(){
+		return jQuery.trim($(".tabs .screen.active").attr("class").replace(/(screen|active)/gi,""));
+	};
 };
 
 (function($){

@@ -158,9 +158,49 @@ class User
     value
   end
 
+  # See chat with someone
+  def chat_with user, limit=20
+    from_to_stamp = ["#{self.id}-#{user.id}","#{user.id}-#{self.id}"]
+    Message.where(:from_to_stamp.in => from_to_stamp).order_by([:created_at,:desc]).limit(limit)
+  end
+
+  # List of chats
+  def chats
+    # Find message exchanges
+    message_pairs = Message.where('$or' => [{"sender_id" => self.id},{"recipient_id" => self.id}],
+        :created_at.gt=>7.days.ago).order_by([:created_at,:asc]).distinct(:from_to_stamp).to_a.map! do |msg|
+          msg.gsub(self.id.to_s,"").gsub(/\-/,"")
+        end.uniq
+
+    # Find responding users
+    unless message_pairs.empty?
+      # Users must be in range
+      users = User.where(:_id.in => message_pairs).where(:loc => {"$within" => {
+        "$centerSphere" => [self.loc,((self.swap_range.fdiv(1000)).fdiv(6371))
+      ]}})
+
+      # Map last_message to each user
+      return users.map do |user|
+        user.define_singleton_method :last_message do
+          Message.first(conditions: {'$or' =>
+            [{"sender_id" => self.id},{"recipient_id" => self.id}]},
+            sort:[[:created_at,:asc]])
+        end
+        user
+      end.sort_by!(&:last_message).reverse!
+    end
+
+    # Empty
+    []
+  end
+
+  def remove_chat recipient
+
+  
+  end
 
   # Calculate channels
-  def chats
+  def chats_OLD
   	# 1. Messages where current_user is sender or recipient
   	# 2. Grouped by recipent
   	senders = Message.any_of({sender_id: self.id},{recipient_id: self.id })
@@ -179,6 +219,9 @@ class User
 			]
 		}
 	  }).to_a.map(&:id)
+
+    # "$centerSphere" => [self.loc, ((range.fdiv(1000)).fdiv(6371))]
+
 
   	# 4. Add inside_swap attribute to sender
   	senders.to_a.map do |sender|
@@ -472,6 +515,8 @@ class User
     }
 
     users = self.swap.to_a
+
+    out[:chats] = self.chats
 
     unless users.empty?
 

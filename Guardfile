@@ -6,7 +6,10 @@ guard 'spork', :cucumber_env => { 'RAILS_ENV' => 'test' }, :rspec_env => { 'RAIL
   watch('spec/spec_helper.rb')
 end
  
-guard 'rspec', :version => 2 do
+guard 'rspec', :version => 2, :cli => "--format Fuubar --colour --drb" do
+
+  # :cli => "--color --drb -r rspec/instafail -f RSpec::Instafail", :bundler => false, :all_after_pass => false, :all_on_start => false, :keep_failed => false
+
   watch(%r{^spec/.+_spec\.rb$})
   watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
   watch('spec/spec_helper.rb')  { "spec" }

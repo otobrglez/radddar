@@ -20,19 +20,6 @@ var RadddarMap = new function(){
 		this.map = new google.maps.Map(document.getElementById("map"),this.options);
 		this.markers = new Array();
 
-		/*
-		RadddarMap.reload_markers();
-
-		$(document).bind("member_added",function(data){
-			RadddarMap.reload_markers();
-		});
-
-		$(document).bind("member_removed",function(data){
-			RadddarMap.reload_markers();
-		});
-		*/
-		
-
 		Status.update_swap();
 	};
 

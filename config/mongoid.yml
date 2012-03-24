@@ -1,12 +1,12 @@
 development:
   host: localhost
   database: radddar_development
-  autocreate_indexes: true
+#  autocreate_indexes: true
 
 test:
   host: localhost
   database: radddar_test
-  autocreate_indexes: true
+#  autocreate_indexes: true
 
 production:
   uri: <%= ENV['MONGOLAB_URI'] || ENV['RDR_MONGOLAB_URI'] %>

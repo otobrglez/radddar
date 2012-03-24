@@ -25,8 +25,9 @@ gem 'em-http-request'
 gem 'haml', '>= 3.0.0'
 gem 'haml-rails'
 gem 'sass'
-gem 'bson_ext'
-gem 'mongoid' # , '>= 2.0.0.beta.19'
+gem 'bson_ext'	# , '1.6.1'
+gem 'mongoid'	#, :git => 'git://github.com/mongoid/mongoid.git'
+
 gem 'omniauth', :git => 'git://github.com/intridea/omniauth.git', :tag => 'v1.0.2'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
@@ -37,6 +38,7 @@ gem 'jammit-s3', :group => :development
 group :development, :test do
 	gem 'rspec'
 	gem 'rspec-rails'
+	gem 'fuubar'
 	
 	gem 'guard'
 	gem 'guard-rspec'

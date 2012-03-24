@@ -15,4 +15,16 @@ module ApplicationHelper
 	 	raw stat
 	end
 
+	# Format message time
+	def message_time message
+		today = DateTime.now
+		if message.created_at.year == today.year &&
+		   message.created_at.month == today.month &&
+		   message.created_at.day == today.day
+			message.created_at.strftime("%H:%M")
+		else
+			message.created_at.strftime("%d.%m %H:%M")
+		end
+	end
+
 end
