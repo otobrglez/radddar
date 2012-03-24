@@ -1,8 +1,19 @@
 var RadddarAlerts = new function(){
 
-	this.add_alert = function(){
+	// Chat alert!
+	this.add_alert = function(sender){
 		var p = $(".tabs-nav .chat .alerts_wrap");
 		var number = parseInt($("span",p).html(),0);
+
+		// if sender... add to list also!
+		if(typeof(sender) != "undefined"){
+			var chat = $('.chat .users .chat[data-id="'+sender+'"]');
+
+			console.log(chat);
+			var number_n = parseInt($("span",chat).html(),0);
+			$("span",chat).html(number_n+1);
+			$(".alerts_wrap",chat).fadeIn("slow");
+		};
 
 		if(number+1 >= 1){
 			$(p).fadeOut("slow",function(){
@@ -11,6 +22,9 @@ var RadddarAlerts = new function(){
 		
 			return number+1;
 		};
+
+
+		
 
 		return number;
 	};

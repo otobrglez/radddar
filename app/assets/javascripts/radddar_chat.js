@@ -51,8 +51,6 @@ var RadddarChat = new function(){
 			$(".messages-wrap",current_chat).html(messages_html);
 			$("li.live-chat").removeClass("act");
 			current_chat.addClass("act");
-
-			//TODO: magic with message form
 		} else {
 			var chats = $(".tabs .chats ul.live-chat-list");
 			var chat = $('<li class="live-chat act" data-id="'+who+'">'+
@@ -64,8 +62,12 @@ var RadddarChat = new function(){
 			chat.appendTo(chats);
 		};
 
-		if(typeof(move_to) != "undefined" && move_to==true)
+		if(typeof(move_to) != "undefined" && move_to==true){
+			//TODO: Remove notifications!
 			$(document).trigger({type:"move_to",tab:"chats"});
+		} else {
+			
+		};
 	};
 
 	/* Triggered when message is sent */
@@ -107,6 +109,17 @@ var RadddarChat = new function(){
 				RadddarChat.get(user.sender,false,function(){ });
 			});
 		};
+
+		// Add alert...
+		//if(RadddarNavigation.current_content_tab() != "chat"){
+			if(RadddarNavigation.current_content_tab() == "chats"){
+				var active_chat = this.active_chat();
+				var sender_chat = user.sender;
+				if(active_chat != sender_chat) RadddarAlerts.add_alert(sender_chat);
+			} else {
+				RadddarAlerts.add_alert(user.sender);
+			};
+		//};
 	};
 };
 

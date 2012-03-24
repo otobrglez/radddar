@@ -17,6 +17,10 @@
 									=time_ago_in_words user_with_chat.last_message.created_at
 									ago
 						
+						.alerts_wrap
+							%span.alerts=0
+
+
 						=link_to "Chat with #{user_with_chat}", chat_path(user_with_chat), :remote => true, :class => "tools"
 
 						-#

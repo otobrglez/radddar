@@ -510,6 +510,28 @@ body{
 
 		}
 
+		li.user.chat .alerts_wrap{
+			display:none;
+			position:absolute;
+			text-align:center;
+			color:white;
+			right:70px;
+
+			span.alerts{
+				display:inline-block;
+				background-color:red;
+				border-radius:50%;
+
+				width:14px;
+				height:14px;
+				line-height:15px;
+				font-weight:normal;
+
+				font-size:10px;
+			}
+		}
+
+
 		li.user.chat .tools{
 			background-image:url("<%= asset_path('chat_w_1.png') %>");
 		}
@@ -522,6 +544,7 @@ body{
 			.remove a{
 				background-image:url("<%= asset_path('feed_remove.png') %>");
 			}
+
 
 			.tools{
 				background-image:url("<%= asset_path('note_b.png') %>");
@@ -558,7 +581,7 @@ body{
 .tabs .member_profile{
 
 	.distance_between{ margin-bottom:10px; }
-	.distance_between span.who{ color:black; }
+	.distance_between span.who{ color:#666; }
 	.distance_between.male span.who{ color:#65D7DE; }
 	.distance_between.female span.who{ color:#DE6C65; }
 
@@ -650,6 +673,10 @@ body{
 
 		}
 	}
+}
+
+.users .chat li.user{
+	
 }
 
 #app .tabs{
