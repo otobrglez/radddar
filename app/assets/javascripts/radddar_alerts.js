@@ -1,5 +1,28 @@
 var RadddarAlerts = new function(){
 
+	/* For radddar tab! */
+	this.add_radddar_alert = function(){
+		var p = $(".tabs-nav .radddar .alerts_wrap");
+		var number = parseInt($("span",p).html(),0);
+
+		if(number+1 >= 1){
+			$(p).fadeOut("slow",function(){
+				$("span",p).html(number+1);
+			}).delay(400).fadeIn("slow");
+			return number+1;
+		};
+
+		return number;
+	};
+
+	/* For Radddar alerts */
+	this.remove_radddar_alerts = function(){
+		var p = $(".tabs-nav .radddar .alerts_wrap");
+		p.fadeOut("slow",function(){
+			$("span",p).html("0");
+		});
+	};
+
 	// Chat alert!
 	this.add_alert = function(sender){
 		var p = $(".tabs-nav .chat .alerts_wrap");

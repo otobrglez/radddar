@@ -4,7 +4,7 @@ var Status = new function(){
 
 	// Do the swap call
 	this.swap = function(callback){
-		$.getJSON("/swap.json",function(data){
+		return $.getJSON("/swap.json",function(data){
 			if(typeof(callback) != "undefined")
 				return callback(data);
 		});
@@ -12,7 +12,7 @@ var Status = new function(){
 
 	// Update swap information
 	this.update_swap = function(callback){
-		Status.swap(function(data,callback){
+		return Status.swap(function(data,callback){
 			
 			if(typeof(data.stat_html) != "undefined")
 				$("div.stat").html($(data.stat_html));
@@ -36,7 +36,8 @@ var Status = new function(){
 				};
 			};
 
-			if(typeof(callback) != "undefined") callback(data);
+			if(typeof(callback) != "undefined")
+				return callback(data);
 		});
 	};
 

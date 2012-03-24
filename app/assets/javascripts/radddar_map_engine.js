@@ -31,7 +31,6 @@
 					if(e.tab=="radddar"){ /* moving to radddar */
 						$("#map").css("z-index",20);
 					};
-
 					
 					if(e.tab!="radddar" && e.current_tab=="radddar"){ 
 						$("#map").css("z-index",5);

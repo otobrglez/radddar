@@ -71,8 +71,16 @@
 
  				// User joins
  				this.presence_channel.bind("pusher:member_added",function(member){
+ 					var number_of_members = User.members.length;
  					User.add_member(member,function(){
+ 						//console.log(number_of_members);
  						Status.update_swap();
+ 						//console.log(User.members.length);
+
+ 						if(User.members.length > number_of_members){
+ 							RadddarAlerts.add_radddar_alert();
+ 							setTimeout("RadddarAlerts.remove_radddar_alerts()",2500);
+ 						};
  					});
  				});
 
