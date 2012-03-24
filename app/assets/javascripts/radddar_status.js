@@ -12,7 +12,7 @@ var Status = new function(){
 
 	// Update swap information
 	this.update_swap = function(callback){
-		return Status.swap(function(data,callback){
+		Status.swap(function(data,callback){
 			
 			if(typeof(data.stat_html) != "undefined")
 				$("div.stat").html($(data.stat_html));
@@ -36,8 +36,7 @@ var Status = new function(){
 				};
 			};
 
-			if(typeof(callback) != "undefined")
-				return callback(data);
+			if(typeof(callback) != "undefined") return callback(data);
 		});
 	};
 
