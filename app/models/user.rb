@@ -32,7 +32,7 @@ class User
 
   # Allowed swap ranges for #swap_range
   def self.allowed_swap_ranges
-  	[200, 1000, 20000, 356400000 ] #m 200000
+  	[200, 1000, 20000, 2000000 ] #m 200000
   end
 
   # Return name as string
