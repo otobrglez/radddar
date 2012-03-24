@@ -100,7 +100,7 @@
 
  				/* Message received */
  				this.private_channel.bind("message-received",function(data){
- 					alert(data);
+ 					RadddarChat.message_received(data);
  				});
 
  			};

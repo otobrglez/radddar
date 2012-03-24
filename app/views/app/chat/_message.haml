@@ -1,5 +1,5 @@
-%li{:class => ["message", ((message.from==current_user.id.to_s)? "mine": "their")] }
-	- if message.valid?
+- if message.valid?
+	%li{:class => ["message", ((message.from==current_user.id.to_s)? "mine": "their")] }
 		%span.created_at=message_time message
 		\-
-	%span.body=message.body
+		%span.body=message.body

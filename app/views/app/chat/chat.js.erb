@@ -1,4 +1,8 @@
 RadddarChat.open_chat(<%= raw @user.to_json %>,
 '<%= j render "app/chat/messages" %>',
 '<%= j render "app/chat/message_form" %>',
-true);
+<% if @jump.to_i == 1 %>
+true
+<% else %>
+false
+<% end %>);

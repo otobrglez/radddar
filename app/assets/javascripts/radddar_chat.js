@@ -8,10 +8,13 @@ var RadddarChat = new function(){
 	};
 
 	/* Load chat and exceture remote */
-	this.get = function(user,callback){
-		var who = user;
-		if(typeof(user) == "object") who = user.id;
-		$.getScript("/chat/"+who+".js",callback);
+	this.get = function(user,jump,callback){
+		var who = (typeof(user)=="object")?user.id:user;
+		if(typeof(jump)!="undefined" && jump==true){
+			$.getScript("/chat/"+who+".js?jump=1",callback);
+		} else{
+			$.getScript("/chat/"+who+".js?jump=0",callback);
+		};
 	};
 
 	/* When someone sends notification */
@@ -24,7 +27,7 @@ var RadddarChat = new function(){
 	/* Open chat if its not open */
 	this.is_open = function(user){
 		var who = (typeof(user)=="object")?user.id:user;
-		return $(".tabs .chats ul li.live-chat[data-id='"+who+"']").length==0?false:true;
+		return $(".tabs li.live-chat[data-id='"+who+"']").length==0?false:true;
 	};
 
 	/* Get active chat */
@@ -73,9 +76,36 @@ var RadddarChat = new function(){
 			var chat = $(".tabs .chats ul li.live-chat[data-id='"+who+"']");
 			var messages = $("ul",chat);
 			$(message_html).appendTo(messages);
-
-			$(".message-form").html(message_form);
+			$(".message-form",chat).html(message_form);
 			$(".message_body",chat).val("");
+
+			$(".error",chat).delay(1000).fadeOut("slow",function(){
+				$(this).remove();
+			});
+		};
+	};
+
+	/* Message revieved */
+	this.message_received = function(data){
+		var user = data;
+
+		/* If chat is opened append */
+		if(this.is_open(user.sender)){
+
+			/* Build new message */
+			var message = $('<li class="message their">'+
+				'<span class="created_at"></span> - <span class="body"></span></li>');
+			$(".created_at",message).html(user.human_time);
+			$(".body",message).html(user.body);
+
+			var chat = this.get_chat(user.sender);
+			var messages = $(".messages ul",chat);
+			message.appendTo(messages);
+
+		} else{
+			this.reload_chat_feed(function(){
+				RadddarChat.get(user.sender,false,function(){ });
+			});
 		};
 	};
 };

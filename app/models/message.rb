@@ -21,6 +21,17 @@ class Message
   before_create :build_channel
   after_save :dispatch_message
 
+  def human_time
+    today = DateTime.now
+    if self.created_at.year == today.year &&
+      self.created_at.month == today.month &&
+      self.created_at.day == today.day
+      self.created_at.strftime("%H:%M")
+    else
+      self.created_at.strftime("%d.%m %H:%M")
+    end   
+  end
+
   def from_to
     "#{self.from}-#{self.to}"
   end
@@ -37,7 +48,13 @@ class Message
   	end
 
     def dispatch_message
-      sender.trigger_event "message-sent", self
-      recipient.trigger_event "message-received", self
+      # sender.trigger_event "message-sent", self
+      recipient.trigger_event "message-received", {
+        human_time: self.human_time,
+        from_to_stamp: self.from_to_stamp,
+        sender: self.from,
+        to: self.to,
+        body: self.body
+      }
     end
 end

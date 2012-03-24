@@ -149,6 +149,9 @@ class AppController < ApplicationController
 
   # Chat
   def chat
+    @jump = params[:jump]
+    @jump = 1 if @jump.nil?
+
     @user = User.find(params[:id])
     @message = Message.new(sender: current_user, recipient: @user)
     @messages = current_user.chat_with @user
@@ -163,7 +166,7 @@ class AppController < ApplicationController
     @message = Message.new(
       sender: current_user,
       recipient: @user,
-      body: params[:message][:body])
+      body: params[:message][:body].strip)
 
     if @message.valid?
       @message.save
