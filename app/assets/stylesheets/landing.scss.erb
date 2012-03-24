@@ -285,6 +285,45 @@ div.wrap{
 
 }
 
+.alpha_form{
+	ul,li{
+		list-style:none;
+		margin:0px;
+		padding:0px;
+	}
+
+	li{
+		border-radius:7px;
+		background-color:white;
+		height:30px;
+		line-height:30px;
+		margin-bottom:5px;
+		a{
+			color:black;
+			display:block;
+			text-indent:10px;
+			text-align:left;
+			font-family: Anton, sans-serif;
+			font-weight:normal;
+			background-position:center right;
+			background-repeat:no-repeat;
+			margin-right:10px;
+		}
+	}
+
+	li.twitter a{
+		background-image:url("<%= asset_path('twitter_24.png') %>");
+	}
+
+	li.facebook a{
+		background-image:url("<%= asset_path('facebook_24.png') %>");
+	}
+}
+
+.left-wrap span.alpha{
+	color:red;
+}
+
 @media only screen and (max-width:750px){
 	
 	.inner_wrap{
@@ -307,7 +346,6 @@ div.wrap{
 			float:none;
 			width:100%;
 			display: block;
-
 		}
 
 		div.right{
@@ -326,12 +364,14 @@ div.wrap{
 			margin:0 auto;
 			text-align:left;
 
+
 			input{
 				text-align:center;
 				width:96%;
 				/* margin-bottom:10px; */
 			}
 		}
+
 	}
 
 }
