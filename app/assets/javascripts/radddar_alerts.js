@@ -31,8 +31,6 @@ var RadddarAlerts = new function(){
 		// if sender... add to list also!
 		if(typeof(sender) != "undefined"){
 			var chat = $('.chat .users .chat[data-id="'+sender+'"]');
-
-			console.log(chat);
 			var number_n = parseInt($("span",chat).html(),0);
 			$("span",chat).html(number_n+1);
 			$(".alerts_wrap",chat).fadeIn("slow");
