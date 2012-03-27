@@ -3,26 +3,7 @@
 */
 
 @import url("http://fonts.googleapis.com/css?family=Anton");
-
-/*
-@font-face {
-	font-family: 'wisdom_script';
-	font-style: normal;
- 	font-weight: normal;
-	src: local('wisdom_script'), url('<%= asset_path("wisdom_script.otf") %>') format("opentype");
-};
-*/
-
-@font-face {
-    font-family: 'WisdomScriptAIRegular';
-    src: url('<%= asset_path("wisdom_script-webfont.eot") %>');
-    src: url('<%= asset_path("wisdom_script-webfont.eot") %>?#iefix') format('embedded-opentype'),
-         url('<%= asset_path("wisdom_script-webfont.woff") %>') format('woff'),
-         url('<%= asset_path("wisdom_script-webfont.ttf") %>') format('truetype'),
-         url('<%= asset_path("wisdom_script-webfont.svg") %>#WisdomScriptAIRegular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-};
+@import url("http://s3.radddar.com.s3.amazonaws.com/assets/wisdom_script-webfont.css");
 
 html{
 	/* http://maxvoltar.com/archive/-webkit-font-smoothing */
