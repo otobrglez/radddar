@@ -38,6 +38,7 @@ Radddar::Application.routes.draw do
   match '/chat/:id', :to => "app#chat", :as => "chat"
   match '/message/:id', :to => "app#message", :as => "message"
 
+  match '/wisdom-script.ttf', :to => "app#wisdom_script"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

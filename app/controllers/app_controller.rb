@@ -8,7 +8,7 @@ class AppController < ApplicationController
 
 	layout 'app'
 
-	before_filter :check_user_auth, :except => [:landing, :live, :reminder]
+	before_filter :check_user_auth, :except => [:landing, :live, :reminder, :wisdom_script]
 
 	# Landing page
 	def landing
@@ -174,6 +174,17 @@ class AppController < ApplicationController
 
     respond_with(@message,@user) do |f|
       f.js { render "app/chat/message" }
+    end
+  end
+
+  # For the loving god. S3 does not support "Access-Control-Allow-Origin" header
+  def wisdom_script
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Expires"] = CGI.rfc1123_date(Time.now + 10.days)
+
+    file_path = Rails.root.join("app","assets","images","wisdom_script-webfont.ttf")
+    File.open(file_path, 'r') do |f|
+      send_data f.read, :type => "application/x-font-ttf", :filename => "wisdom-script.ttf"
     end
   end
 
