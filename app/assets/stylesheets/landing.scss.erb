@@ -2,14 +2,19 @@
  *= require_self
 */
 
-@import url(http://fonts.googleapis.com/css?family=Anton);
+@import url("http://fonts.googleapis.com/css?family=Anton");
+
 @font-face {
 	font-family: wisdom_script;
 	src: url("<%= asset_path('wisdom_script.otf') %>");
 }
 
 html{
+	/* http://maxvoltar.com/archive/-webkit-font-smoothing */
+
 	-webkit-text-size-adjust: none;
+	font-smooth:never;
+	-webkit-font-smoothing: subpixel-antialiased; /* antialiased; */
 }
 
 html,body{
@@ -46,6 +51,7 @@ html,body{
 			text-align:right;
 			font-family: Anton;
 			padding-right:10px;
+			font-smooth:never;
 		}
 	}
 }
@@ -115,6 +121,7 @@ div.wrap{
 			line-height:40px;
 			text-indent:52px;
 			font-family: 'Anton', sans-serif;
+			font-smooth:never;
 			font-size:12px;
 		}
 
@@ -150,7 +157,7 @@ div.wrap{
 
 			h1{
 				font-family: wisdom_script, helvetica;
-				font-size:14px;
+				font-size:15px;
 				margin-bottom:10px;
 				margin-top:10px;
 			}
@@ -162,6 +169,7 @@ div.wrap{
 				border-bottom:1px dotted #666;
 				padding-top:10px;
 				padding-bottom:10px;
+				font-smooth:never;
 			}
 
 			p.error,
@@ -190,6 +198,8 @@ div.wrap{
 
 			li{
 				font-family: 'Anton', sans-serif;
+				font-smooth:never;
+
 				font-size:14px;
 				border-bottom:1px dotted #666;
 
