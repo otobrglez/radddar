@@ -39,7 +39,8 @@ Radddar::Application.routes.draw do
   match '/message/:id', :to => "app#message", :as => "message"
 
   match '/wisdom-script.ttf', :to => "app#wisdom_script"
-
+  match '/steelfish.ttf', :to => "app#steelfish"
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

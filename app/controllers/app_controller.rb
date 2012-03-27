@@ -8,7 +8,7 @@ class AppController < ApplicationController
 
 	layout 'app'
 
-	before_filter :check_user_auth, :except => [:landing, :live, :reminder, :wisdom_script]
+	before_filter :check_user_auth, :except => [:landing, :live, :reminder, :wisdom_script, :steelfish]
 
 	# Landing page
 	def landing
@@ -178,20 +178,22 @@ class AppController < ApplicationController
   end
 
   # For the loving god. S3 does not support "Access-Control-Allow-Origin" header
-  def wisdom_script
-    response.headers["Access-Control-Allow-Origin"] = "*"
-    response.headers["Expires"] = CGI.rfc1123_date(Time.now + 10.days)
-
-    file_path = Rails.root.join("app","assets","images","wisdom_script-webfont.ttf")
-    File.open(file_path, 'r') do |f|
-      send_data f.read, :type => "application/x-font-ttf", :filename => "wisdom-script.ttf"
-    end
-  end
+  def wisdom_script; send_font "wisdom_script-webfont.ttf" end
+  def steelfish; send_font "steelfish.ttf" end
 
 	private
 		# Make sure user is signed in!
 		def check_user_auth
 			return redirect_to(root_url, :notice => "Please sign in!") if not signed_in?
 		end
+
+    def send_font font
+      response.headers["Access-Control-Allow-Origin"] = "*"
+      response.headers["Expires"] = CGI.rfc1123_date(Time.now + 10.days)
+      file_path = Rails.root.join("app","assets","images",font)
+      File.open(file_path, 'r') do |f|
+        send_data f.read, :type => "application/x-font-ttf", :filename => font
+      end
+    end
 
 end
