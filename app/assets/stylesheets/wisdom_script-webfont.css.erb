@@ -4,11 +4,18 @@
 
 @font-face {
     font-family: 'WisdomScriptAIRegular';
-    src: url('<%= "wisdom_script-webfont.eot" %>');
-    src: url('<%= "wisdom_script-webfont.eot" %>?#iefix') format('embedded-opentype'),
-         url('<%= "wisdom_script-webfont.woff" %>') format('woff'),
-         url('<%= "wisdom_script-webfont.ttf" %>') format('truetype'),
-         url('<%= "wisdom_script-webfont.svg" %>#WisdomScriptAIRegular') format('svg');
+    src: url('http://s3.radddar.com.s3.amazonaws.com/assets/wisdom_script-webfont.ttf') format('truetype');
+
+    /*
+    src: url('<%= asset_path("wisdom_script-webfont.ttf") %>') format('truetype');
+
+    src: url('<%= asset_path("wisdom_script-webfont.eot") %>');
+    src: url('<%= asset_path("wisdom_script-webfont.eot") %>?#iefix') format('embedded-opentype'),
+         url('<%= asset_path("wisdom_script-webfont.woff") %>') format('woff'),
+         url('<%= asset_path("wisdom_script-webfont.ttf") %>') format('truetype'),
+         url('<%= asset_path("wisdom_script-webfont.svg") %>#WisdomScriptAIRegular') format('svg');
+
+        */
     font-weight: normal;
     font-style: normal;
 };
