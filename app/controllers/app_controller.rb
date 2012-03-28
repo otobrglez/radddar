@@ -8,7 +8,7 @@ class AppController < ApplicationController
 
 	layout 'app'
 
-	before_filter :check_user_auth, :except => [:landing, :live, :reminder, :wisdom_script, :steelfish]
+	before_filter :check_user_auth, :except => [:landing, :live, :reminder, :wisdom_script, :steelfish, :reload_clients]
 
 	# Landing page
 	def landing
