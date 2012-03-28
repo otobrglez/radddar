@@ -136,11 +136,6 @@ var RadddarChat = new function(){
 				o = options;
 				app = $(this);
 
-				/* When you click on chat
-					1) remove alerts
-					2) reload feeds
-				*/
-
 				$(".message_body").live("keydown",function(e){
 					var c = e.which ? e.which : e.keyCode;
 					if(c==13){
