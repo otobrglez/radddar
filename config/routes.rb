@@ -38,6 +38,8 @@ Radddar::Application.routes.draw do
   match '/chat/:id', :to => "app#chat", :as => "chat"
   match '/message/:id', :to => "app#message", :as => "message"
 
+  match '/reload_clients/:key', :to => "app#reload_clients", :as => "reload_clients"
+
   match '/wisdom-script.ttf', :to => "app#wisdom_script"
   match '/steelfish.ttf', :to => "app#steelfish"
   

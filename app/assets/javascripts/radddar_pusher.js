@@ -2,7 +2,7 @@
 
 (function($){
 
-	var pusher, private_channel, presence_channel = null;
+	var pusher, private_channel, presence_channel, general_channel = null;
 
 	var options={
 		app_id:null
@@ -50,6 +50,13 @@
 
  				// Private channel for user
  				this.private_channel = this.pusher.subscribe(this.options.user.private_channel);
+
+ 				// General channel
+ 				this.general_channel = this.pusher.subscribe("general");
+
+ 				this.general_channel.bind("reload_clients",function(event){
+ 					window.location = "/app"
+ 				});
 
  				this.private_channel.bind("pusher:subscription_error",function(status){
 					if(!$("#global_error").is("visible"))

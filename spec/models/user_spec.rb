@@ -1,7 +1,19 @@
 require 'spec_helper'
 require "json"
 
+
+class User
+	def self.allowed_swap_ranges
+		[200, 1000, 20000, 200000]
+	end
+end
+
 describe User do
+
+	# Test the monkey patch for testing
+	it "has overriden swap ranges" do
+		User.allowed_swap_ranges.should == [200, 1000, 20000, 200000]
+	end
 
 	let(:user) { User.new }
 	

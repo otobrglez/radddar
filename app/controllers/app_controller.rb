@@ -177,6 +177,17 @@ class AppController < ApplicationController
     end
   end
 
+  # Send reload command to all clients
+  def reload_clients
+    if params[:key] == "I5iG0uOzPqh3"
+      Pusher["general"].trigger("reload_clients",{when:DateTime.now})
+      return render :json => {status: "OK"}
+    end
+
+    return render :json => {status: "Fail!"}
+  end
+
+
   # For the loving god. S3 does not support "Access-Control-Allow-Origin" header
   def wisdom_script; send_font "wisdom_script-webfont.ttf" end
   def steelfish; send_font "steelfish.ttf" end
