@@ -5,6 +5,7 @@ back_w.png: back_w-088d75228301508eabd612f5d44e5eba.png
 bg.jpg: bg-c3950b4591521a73a65279550785190e.jpg
 box_b.png: box_b-0fc0d3e29abb93525cdaaa5c70ba303f.png
 box_c.png: box_c-c61ae358e9e9c7728836349ba4f7e34f.png
+box_g.png: box_g-60da4923eb11e5261a04f167d1bfd054.png
 box_r.png: box_r-36b0714375b4b8527cddd2ab5c619410.png
 chat.png: chat-ae101ccc7823c858c41f24de2b8e4073.png
 chat_b.png: chat_b-ffbd6ba3d7a532b36641e4408afe049b.png
@@ -70,7 +71,7 @@ wisdom_script-webfont.svg: wisdom_script-webfont-d486d06d5888a6b6162318d455084ca
 wisdom_script-webfont.ttf: wisdom_script-webfont-3e59625645ef195f18b48c5983eb80e4.ttf
 wisdom_script-webfont.woff: wisdom_script-webfont-7360a1e10c21098c810d2c1d04e30cf4.woff
 wisdom_script.otf: wisdom_script-99019fc344be1135418bba6109866ccd.otf
-app.js: app-5c3799383d0fb5ca6ad3578f8975761b.js
+app.js: app-7c05053ad6686a8f5e8775eb84cabf02.js
 landing.js: landing-2baaf6d1b9b9571a6f0083b755805b7c.js
 live.js: live-0a2284b2c35c4ba82c2b72088277e8dd.js
 app-mobile.css: app-mobile-95bd4fe1de99c1cd91ec8e6f348a44bd.css
