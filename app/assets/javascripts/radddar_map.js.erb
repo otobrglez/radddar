@@ -121,6 +121,12 @@ var RadddarMap = new function(){
 				return this.markers[i];
 			};
 		};
+		return null;
+	};
+
+
+	this.move_to_user = function(user){
+		this.move_to_point(user.loc);
 	};
 
 	/* Marker click */

@@ -1,1 +1,4 @@
 $(".tabs .member_profile").html('<%= j render "app/user/member_profile" %>');
+<% if @user.loc? %>
+RadddarMap.move_to_user(<%= raw @user.to_json %>);
+<% end %>
