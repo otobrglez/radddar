@@ -8,6 +8,9 @@
 			var options =  $.extend(defaults, options);
 
 			var refresh_location_from_browser = function(){
+				RadddarMap.refresh_location_from_browser();
+
+				/*
 				if (navigator.geolocation) {
 				  navigator.geolocation.getCurrentPosition(function(data){
 				  	return RadddarMap.move_to_point_and_save([
@@ -19,12 +22,17 @@
 				} else {
 					alert("Your browser does not support GEOlocation magic :(");
 				};
-
+				*/
 			};
 
 			return this.each(function() {
 				o = options;
 				app = $(this);
+
+				$(".no_location a.update").live("click",function(e){
+					if(e.preventDefault) e.preventDefault();
+					RadddarMap.refresh_location_from_browser();
+				});
 
 				/* This is for layout hack */
 				$(document).bind("nav:pre_tab_switch",function(e){

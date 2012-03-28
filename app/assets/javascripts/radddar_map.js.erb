@@ -110,6 +110,9 @@ var RadddarMap = new function(){
 	this.move_to_point_and_save = function(data){
 		CurrentUser.set({loc:data},function(n_data){
 			RadddarMap.move_to_point(n_data.loc);
+			Status.update_swap(function(){
+				/* This callback does not work */
+			});
 		});			
 	};
 
@@ -121,6 +124,20 @@ var RadddarMap = new function(){
 			};
 		};
 		return null;
+	};
+
+	this.refresh_location_from_browser = function(){
+		if (navigator.geolocation) {
+		  navigator.geolocation.getCurrentPosition(function(data){
+		  	return RadddarMap.move_to_point_and_save([
+		  		data.coords.latitude,
+		  		data.coords.longitude]);
+		  },function(data){
+		  	alert("No GEO information from you :/")
+		  });
+		} else {
+			alert("Your browser does not support GEOlocation magic :(");
+		};
 	};
 
 

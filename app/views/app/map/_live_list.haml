@@ -1,21 +1,31 @@
-.users
-	%ul
-		- user.swap.sort{ |a,b| a.distance.to_i <=> b.distance.to_i }.each do |u|
-			- unless u==user
-				%li.user{u.to_data.merge!(:class=>[u.gender, "off" ])}
-					.user_line_wrap
-						-unless u.image.nil?
-							.image
-								=link_to image_tag(u.image), "#user-#{u.id}"
-						.details
-							.name=link_to u, "#user-#{u.id}"
-							.distance=u.distance_to_human
-			-else
-				%li.user{u.to_data.merge!(:style=>"display:none")}
-					.user_line_wrap
-						-unless u.image.nil?
-							.image
-								=link_to image_tag(u.image), "#user-#{u.id}"
-						.details
-							.name=link_to u, "#user-#{u.id}"
-							.distance=u.distance_to_human
+- @swap = user.swap.to_a.sort{ |a,b| a.distance.to_i <=> b.distance.to_i }
+
+- if not(@swap.empty?) and not(user.loc.nil?) and user.loc!=""
+	.users
+		%ul
+			-@swap.each do |u|
+				- unless u==user
+					%li.user{u.to_data.merge!(:class=>[u.gender, "off" ])}
+						.user_line_wrap
+							-unless u.image.nil?
+								.image
+									=link_to image_tag(u.image), "#user-#{u.id}"
+							.details
+								.name=link_to u, "#user-#{u.id}"
+								.distance=u.distance_to_human
+				-else
+					%li.user{u.to_data.merge!(:style=>"display:none")}
+						.user_line_wrap
+							-unless u.image.nil?
+								.image
+									=link_to image_tag(u.image), "#user-#{u.id}"
+							.details
+								.name=link_to u, "#user-#{u.id}"
+								.distance=u.distance_to_human
+- else
+	.no_location
+		%p
+			There is nobody around you. :(
+		
+		%a.update(href="#refresh_location")
+			Please update your location.
