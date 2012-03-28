@@ -107,7 +107,7 @@ class User
     "$within" => {
         "$centerSphere" => [self.loc, ((range.fdiv(1000)).fdiv(6371))]
       }
-    }).where(:updated_at.gt => 1.days.ago) # 24h!
+    }).where(:updated_at.gt => 72.hours.ago) # 24h!
   end
 
   # Convert gender hash into words
