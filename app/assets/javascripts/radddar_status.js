@@ -23,7 +23,8 @@ var Status = new function(){
 			/* Mark users that are actualy online with white background (class=on) */
 			var push_list = User.members;
 			/* div.live_list  */
-			$(".users li.on").removeClass("on");
+			
+			// $(".users li.on").removeClass("on");
 
 			var live_list = User.users_from_list();
 			RadddarMap.remove_all_markers();
@@ -32,6 +33,9 @@ var Status = new function(){
 					if(User.is_online(live_list[i])){
 						$("li.user[data-id='"+(live_list[i].id)+"']").addClass("on");
 						RadddarMap.add_user_marker(live_list[i]);
+					} else {
+						$("li.user[data-id='"+(live_list[i].id)+"']").removeClass("on");
+						RadddarMap.add_user_marker(live_list[i],true);
 					};
 				};
 			};

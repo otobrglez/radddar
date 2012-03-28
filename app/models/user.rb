@@ -32,7 +32,11 @@ class User
 
   # Allowed swap ranges for #swap_range
   def self.allowed_swap_ranges
-  	[200, 1000, 20000, 600000 ] #m 200000
+    if Rails.env =~ /(production|development)/
+      [200, 1000, 20000, 600000 ]
+    else # For testing the last range should be smaller.
+      [200, 1000, 20000, 200000 ] #m 200000
+    end
   end
 
   # Return name as string

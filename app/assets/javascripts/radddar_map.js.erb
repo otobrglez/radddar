@@ -40,7 +40,8 @@ var RadddarMap = new function(){
 		var bg_image_str = {
 			male: '<%= asset_path("box_c.png") %>',
 			female: '<%= asset_path("box_r.png") %>',
-			none: '<%= asset_path("box_b.png") %>'
+			none: '<%= asset_path("box_b.png") %>',
+			off: '<%= asset_path("box_g.png") %>'
 		};
 
 		/* CHANGE this and you DIE on the SPOT */
@@ -60,8 +61,13 @@ var RadddarMap = new function(){
 	};
 
 	/* Add marker to map */
-	this.add_user_marker = function(user){
+	this.add_user_marker = function(user,offline){
 		var loc = new google.maps.LatLng(user.loc[0],user.loc[1]);
+
+
+		var off = (typeof(offline)!="undefined" && offline==true)?true:false;
+		if(off) user.gender = "off";
+
 		var images = this.build_marker_for(user);
 
 		var marker = new google.maps.Marker({
