@@ -31,6 +31,18 @@ describe ApplicationHelper do
 			pstr = User.stat_to_human(test_stat.merge({male:1}))
 			pstr = helper.humanize_stat(pstr)
 			pstr.should =~ /class/
+		end
+
+		it "works for big numbers also" do
+			test_stat = {
+				female: 10,
+				male: 10,
+				none: 0
+			}
+
+			pstr = User.stat_to_human(test_stat)
+			pstr = helper.humanize_stat(pstr)
+			pstr.should =~ />\d+/
 
 		end
 	end

@@ -2,8 +2,8 @@ module ApplicationHelper
 
 	# Add some nice span-wraps 
 	def humanize_stat stat
-		if stat =~ /(\d\ (\w+))/
-			m = stat.scan /(\d\ (\w+))/
+		if stat =~ /(\d+\ (\w+))/
+			m = stat.scan /(\d+\ (\w+))/
 			unless m.empty?
 				m.each do |pair|
 					stat.gsub! pair.first,
