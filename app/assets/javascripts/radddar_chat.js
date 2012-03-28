@@ -51,6 +51,7 @@ var RadddarChat = new function(){
 			$(".messages-wrap",current_chat).html(messages_html);
 			$("li.live-chat").removeClass("act");
 			current_chat.addClass("act");
+			$(".message_body",current_chat).focus();
 		} else {
 			var chats = $(".tabs .chats ul.live-chat-list");
 			var chat = $('<li class="live-chat act" data-id="'+who+'">'+
@@ -60,6 +61,7 @@ var RadddarChat = new function(){
 			$(".message-form",chat).append(message_form);
 			$("li.live-chat").removeClass("act");
 			chat.appendTo(chats);
+			$(".message_body",chat).focus();
 		};
 
 		if(typeof(move_to) != "undefined" && move_to==true){
@@ -80,6 +82,7 @@ var RadddarChat = new function(){
 			$(message_html).appendTo(messages);
 			$(".message-form",chat).html(message_form);
 			$(".message_body",chat).val("");
+			$(".message_body",chat).focus();
 
 			$(".error",chat).delay(1000).fadeOut("slow",function(){
 				$(this).remove();
@@ -138,11 +141,11 @@ var RadddarChat = new function(){
 					2) reload feeds
 				*/
 
-				$(".message_body").live("keyup",function(e){
-					// if(e.preventDefault) e.preventDefault();
+				$(".message_body").live("keydown",function(e){
 					var c = e.which ? e.which : e.keyCode;
 					if(c==13){
 						$(this).parents("form").trigger("submit");
+						return false;
 					};
 				});
 
