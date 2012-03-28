@@ -27,26 +27,22 @@ gem 'haml-rails'
 gem 'sass'
 gem 'bson_ext'	# , '1.6.1'
 gem 'mongoid'	#, :git => 'git://github.com/mongoid/mongoid.git'
-
 gem 'omniauth', :git => 'git://github.com/intridea/omniauth.git', :tag => 'v1.0.2'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'rabl'
 gem 'pry-rails', :group => :development
 gem 'jammit-s3', :group => :development
-
-gem 'airbrake'
+gem 'airbrake', :git => 'git://github.com/airbrake/airbrake.git'
 
 group :development, :test do
 	gem 'rspec'
 	gem 'rspec-rails'
 	gem 'fuubar'
-	
 	gem 'guard'
 	gem 'guard-rspec'
 	gem 'guard-livereload'
 	gem 'guard-spork'
-
 	gem 'spork', '~> 1.0rc'
 	gem 'growl'
  	gem 'spork-rails'
@@ -61,6 +57,5 @@ group :development, :test do
 	gem 'pry'
 	gem 'pry-doc'
 	gem 'ruby-debug19', :require => 'ruby-debug'
-	
 	gem 'factory_girl_rails'
 end
