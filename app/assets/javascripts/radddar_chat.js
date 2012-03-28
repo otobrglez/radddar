@@ -133,9 +133,12 @@ var RadddarChat = new function(){
 			var options =  $.extend(defaults, options);
 
 			return this.each(function() {
+				/*
 				o = options;
 				app = $(this);
+				*/
 
+				
 				$(".message_body").live("keydown",function(e){
 					var c = e.which ? e.which : e.keyCode;
 					if(c==13){
