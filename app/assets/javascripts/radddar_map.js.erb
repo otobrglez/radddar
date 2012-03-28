@@ -64,7 +64,6 @@ var RadddarMap = new function(){
 	this.add_user_marker = function(user,offline){
 		var loc = new google.maps.LatLng(user.loc[0],user.loc[1]);
 
-
 		var off = (typeof(offline)!="undefined" && offline==true)?true:false;
 		if(off) user.gender = "off";
 

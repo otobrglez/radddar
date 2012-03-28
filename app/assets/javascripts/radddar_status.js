@@ -22,11 +22,8 @@ var Status = new function(){
 
 			/* Mark users that are actualy online with white background (class=on) */
 			var push_list = User.members;
-			/* div.live_list  */
-			
-			// $(".users li.on").removeClass("on");
-
 			var live_list = User.users_from_list();
+			
 			RadddarMap.remove_all_markers();
 			if(live_list.length != 0){
 				for(var i in live_list){
@@ -40,7 +37,8 @@ var Status = new function(){
 				};
 			};
 
-			if(typeof(callback) != "undefined") return callback(data);
+			if(typeof(callback) != "undefined")
+				return callback(data);
 		});
 	};
 

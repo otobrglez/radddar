@@ -98,6 +98,8 @@ class User
 
   	raise "Range: #{range} - is not allowed range!" unless range.in? User.allowed_swap_ranges
 
+    return [] if self.loc.nil? || self.loc == ""
+
   	@@current_loc=self.loc
 
     self.send(:distance)
