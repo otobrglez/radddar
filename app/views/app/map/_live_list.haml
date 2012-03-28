@@ -1,6 +1,6 @@
 .users
 	%ul
-		- user.swap.sort{ |a,b| a.distance.to_i <=> b.distance.to_i }.reverse.each do |u|
+		- user.swap.sort{ |a,b| a.distance.to_i <=> b.distance.to_i }.each do |u|
 			- unless u==user
 				%li.user{u.to_data.merge!(:class=>[u.gender, "off" ])}
 					.user_line_wrap
