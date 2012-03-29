@@ -109,8 +109,8 @@ describe User do
 
 			oto.should respond_to :swap_stat
 			te = oto.swap_stat(200*1000)
-			te.should =~ /2\ males/ # not me
-			te.should =~ /1\ female/
+			te.should =~ /2\ boys/ # not me
+			te.should =~ /1\ girl/
 		end
 
 		it "also calculates distance from origin point" do
@@ -160,19 +160,19 @@ describe User do
 
 			User.stat_to_human(test_stat).should == "Nobody is around you."
 
-			User.stat_to_human(test_stat.merge({male:1})).should == "There is 1 male around you."
-			User.stat_to_human(test_stat.merge({male:2})).should == "There are 2 males around you."
-			User.stat_to_human(test_stat.merge({male:10})).should == "There are 10 males around you."
+			User.stat_to_human(test_stat.merge({male:1})).should == "1 boy around you."
+			User.stat_to_human(test_stat.merge({male:2})).should == "2 boys around you."
+			User.stat_to_human(test_stat.merge({male:10})).should == "10 boys around you."
 
-			User.stat_to_human(test_stat.merge({female:2})).should == "There are 2 females around you."
+			User.stat_to_human(test_stat.merge({female:2})).should == "2 girls around you."
 			
-			User.stat_to_human(test_stat.merge({male:1,female:1})).should == "There is 1 female and 1 male around you."
-			User.stat_to_human(test_stat.merge({male:2,female:2})).should == "There are 2 females and 2 males around you."
+			User.stat_to_human(test_stat.merge({male:1,female:1})).should == "1 girl and 1 boy around you."
+			User.stat_to_human(test_stat.merge({male:2,female:2})).should == "2 girls and 2 boys around you."
 			
-			User.stat_to_human(test_stat.merge({male:2,female:2,none:1})).should == "There are 2 females, 2 males and 1 UFO around you."
-			User.stat_to_human(test_stat.merge({male:2,female:2,none:2})).should == "There are 2 females, 2 males and 2 UFOs around you."
+			User.stat_to_human(test_stat.merge({male:2,female:2,none:1})).should == "2 girls, 2 boys and 1 UFO around you."
+			User.stat_to_human(test_stat.merge({male:2,female:2,none:2})).should == "2 girls, 2 boys and 2 UFOs around you."
 
-			User.stat_to_human(test_stat.merge({male:10,female:10,none:10})).should == "There are 10 females, 10 males and 10 UFOs around you."
+			User.stat_to_human(test_stat.merge({male:10,female:10,none:10})).should == "10 girls, 10 boys and 10 UFOs around you."
 
 =begin
 			puts " "

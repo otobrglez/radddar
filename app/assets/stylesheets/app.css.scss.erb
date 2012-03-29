@@ -190,14 +190,15 @@ body{
 			span.b{ color: #65D7DE; }
 
 			span.none,
-			span.ufo 	{	color: #666666;	}
-			span.male 	{ 	color: #65D7DE;	}
-			span.female { 	color: #DE6C65;	}
+			span.ufo 				{	color: #666666;	}
+			span.male, span.boy 	{ 	color: #65D7DE;	}
+			span.female, span.girl 	{ 	color: #DE6C65;	}
 
 
 			.stat-wrap{
 				
-
+				span.boy,
+				span.girl,
 				span.ufo,
 				span.male,
 				span.female{
@@ -205,8 +206,8 @@ body{
 				}
 
 				span.ufo 	{	color: #666666;	}
-				span.male 	{ 	color: #65D7DE;	}
-				span.female { 	color: #DE6C65;	}
+				span.male, span.boy 	{ 	color: #65D7DE;	}
+				span.female, span.girl { 	color: #DE6C65;	}
 					
 			}
 		}
@@ -983,7 +984,14 @@ p.no_chats{
 }
 
 @media only screen and (min-width:750px){
-	html, body{ width:100%; height:100%; overflow:hidden; }
+	html, body{
+		width:100%;
+		height:100%;
+		overflow-x: hidden;
+		overflow-y: auto;
+		
+		/* overflow:hidden; */
+	}
 	div.wrap{ width:100%; height:100%; }
 	#app{ position:absolute; z-index:20; left:0px; width:320px; }
 	#app .tabs-nav{ width: 100%; text-aligne:center; margin:0px auto; li{ width:20%; } }
@@ -1003,52 +1011,7 @@ p.no_chats{
 	#map{ position:absolute; z-index:10; left:320px; top:0px; overflow:hidden; }
 }
 
-
-
 /*
-@media all and
-	(min-device-width: 480px) and
-	(max-device-width: 768px)
-	{
-	
-	#app{
-		.tabs-nav{
-			width: 405px;
-			text-aligne:center;
-			margin:0px auto;
-
-			li{
-				width:80px;
-			}
-		}
-	}
-}
-
-@media all and (min-width:768px){
-
-	div.wrap{
-		width:100%;
-		height:100%;
-	}
-
-	#app{
-		position:absolute;
-		z-index:20;
-		left:0px;
-		width:320px;
-	}		
-
-	body{
-		overflow:hidden;
-	}
-
-	#map{
-		position:absolute;
-		z-index:10;
-		left:320px;
-		top:0px;
-		overflow:hidden;
-	}
-
-}
+	div#uvTab{ display:none; }
 */
+

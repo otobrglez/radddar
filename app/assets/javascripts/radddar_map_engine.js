@@ -9,20 +9,6 @@
 
 			var refresh_location_from_browser = function(){
 				RadddarMap.refresh_location_from_browser();
-
-				/*
-				if (navigator.geolocation) {
-				  navigator.geolocation.getCurrentPosition(function(data){
-				  	return RadddarMap.move_to_point_and_save([
-				  		data.coords.latitude,
-				  		data.coords.longitude]);
-				  },function(data){
-				  	alert("No GEO information from you :/")
-				  });
-				} else {
-					alert("Your browser does not support GEOlocation magic :(");
-				};
-				*/
 			};
 
 			return this.each(function() {
@@ -43,7 +29,6 @@
 					if(e.tab!="radddar" && e.current_tab=="radddar"){ 
 						$("#map").css("z-index",5);
 					};
-					
 				});
 
 				/* When someone clicks on stat */

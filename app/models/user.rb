@@ -131,7 +131,9 @@ class User
     are_is = "is" if pom_str.size == 1 or stats.first[1] == 1
     are_is = "are" if stats.first[1] > 1
 
-    out = "There #{are_is} #{pom_str_v} around you."
+    #OLD out = "There #{are_is} #{pom_str_v} around you."
+    out = "#{pom_str_v} around you."
+
     
     m = out.scan(/(\ and\ \d+\ \w+)/i).flatten.compact.uniq  
     
@@ -160,7 +162,10 @@ class User
     User.stat_to_human stats
   end
 
+
   def self.none_to_ufo(value)
+    value = "boy" if value.to_s=="male"
+    value = "girl" if value.to_s=="female"
     return "UFO" if value.to_s == "none"
     value
   end
