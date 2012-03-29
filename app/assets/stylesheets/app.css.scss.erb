@@ -6,14 +6,16 @@
    	font-weight: normal;
     font-style: normal;
 	font-family: steelfish;
-    src: url('http://www.radddar.com/steelfish.ttf') format('truetype');
+    src: url('<%= asset_path("steelfish.ttf") %>') format('truetype'),
+    	url('http://www.radddar.com/steelfish.ttf') format('truetype');
 }
 
 @font-face {
     font-weight: normal;
     font-style: normal;
     font-family: 'WisdomScriptAIRegular';
-    src: url('http://www.radddar.com/wisdom-script.ttf') format('truetype');
+    src: url('<%= asset_path("wisdom_script-webfont.ttf") %>') format('truetype'),
+    	url('http://www.radddar.com/wisdom-script.ttf') format('truetype');
 }
 
 body,html,td,th,p,input,textarea{

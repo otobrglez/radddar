@@ -22,3 +22,6 @@
 	%body
 		.wrap
 			=yield
+
+		-if Rails.env == "production"
+			=render partial: "layouts/uservoice"
