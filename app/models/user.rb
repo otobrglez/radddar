@@ -268,6 +268,12 @@ class User
       else
         nil
       end
+    elsif auth["provider"] == "google_oauth2"
+      if !auth["info"].nil? && !auth["info"]["name"].nil?
+        auth["info"]["name"]
+      else
+        nil
+      end
     else
       nil
     end
@@ -350,12 +356,14 @@ class User
   def self.find_or_create auth
     current_location = nil
 
-    if auth["provider"] =~ /(facebook|twitter)/i
+    if auth["provider"] =~ /(facebook|twitter|google_oauth2)/i
       provider = Provider.new(
         :provider => auth["provider"],
         :uid => auth["uid"],
         :name => User.name_from_provider(auth)
       )
+
+      # debugger
 
       # If provider provides image
       if auth["provider"] == "facebook"
@@ -372,9 +380,25 @@ class User
         end
       end
 
+      if auth["provider"] == "google_oauth2"
+        if !auth["info"].nil? && !auth["info"]["image"].nil?
+          provider.image = auth["info"]["image"]
+        end
+      end
+
       # If provider provides birthday
       if !auth["extra"].nil? && !auth["extra"]["raw_info"].nil? && !auth["extra"]["raw_info"]["birthday"].nil?
-        provider.birthday = Date.strptime(auth["extra"]["raw_info"]["birthday"],'%m/%d/%Y')
+        birthday = nil
+       
+        begin
+          birthday = Date.strptime(auth["extra"]["raw_info"]["birthday"],'%m/%d/%Y')
+        rescue
+          birthday = Date.strptime(auth["extra"]["raw_info"]["birthday"],'%Y-%m-%d')
+        else
+          birthday = nil
+        end
+
+        provider.birthday = birthday unless birthday.nil?
       end
 
       # If provider provides gender
@@ -393,6 +417,11 @@ class User
 
     else
       raise 'Provider #{auth["provider"]} - is not yet supported!'
+    end
+
+    # This is dirty hack becouse MongoDB has problems with big integers.
+    if provider.provider =~ /(google_oauth2)/
+      provider.uid = ("99"+provider.uid.to_s[0..7]).to_i
     end
 
     # Find user that has provider

@@ -27,13 +27,17 @@ gem 'haml-rails'
 gem 'sass'
 gem 'bson_ext'	# , '1.6.1'
 gem 'mongoid'	#, :git => 'git://github.com/mongoid/mongoid.git'
+
 gem 'omniauth', :git => 'git://github.com/intridea/omniauth.git', :tag => 'v1.0.2'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
+gem 'omniauth-google-oauth2'
+
 gem 'rabl'
 gem 'pry-rails', :group => :development
 gem 'jammit-s3', :group => :development
 gem 'airbrake', :git => 'git://github.com/airbrake/airbrake.git'
+gem 'heroku'
 
 group :development, :test do
 	gem 'rspec'
@@ -58,4 +62,6 @@ group :development, :test do
 	gem 'pry-doc'
 	gem 'ruby-debug19', :require => 'ruby-debug'
 	gem 'factory_girl_rails'
+
+	gem "foreman"
 end
