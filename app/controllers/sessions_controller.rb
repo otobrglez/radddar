@@ -9,9 +9,6 @@ class SessionsController < ApplicationController
 
 	# Respond to OAuth callback
 	def callback
-		t=1
-		# debugger
-		t=2
 		raise "Unknown provider #{params[:provider]}." unless params[:provider].in? %w(facebook twitter google_oauth2)
 		user = User.find_or_create auth
 		session[:user_id]=user.id.to_s
@@ -36,6 +33,5 @@ class SessionsController < ApplicationController
 	      render :text => "Not authorized", :status => '403'
 	    end
 	end
-
-
 end
+
