@@ -30,7 +30,7 @@
 
 		%meta{:property=>"og:image", :content=>image_path("radddar-big.jpg")}
 
-		%meta(property="og:description" content="Raddddar is a web based app where you can easily see and connect with people around you. It’s a service based on coincidence and location. Just a simple opportunity, to meet people near you.")
+		%meta{property:"og:description", content:strip_tags(humanize_stat_for_3rd(@user,@user.swap_stat))}
 
 		- if @user.loc?
 			%meta{property:"#{FB["ns"]}:location:latitude",  content:@user.loc.first}
