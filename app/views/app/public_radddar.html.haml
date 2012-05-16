@@ -12,7 +12,7 @@
 		<meta property="radddardev:location:longitude" content="15.645982" /> 
 
 	%head{prefix:"og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# #{FB["ns"]}: http://ogp.me/ns/fb/#{FB["ns"]}#"}
-		%title="RADDDAR of #{@user}."
+		%title="RADDDAR of #{@user.name}."
 
 		= stylesheet_link_tag    "landing", :media => "all"
 		= javascript_include_tag "radddar_public"
@@ -38,7 +38,7 @@
 
 		%meta{property: "#{FB["ns"]}:gender", content: @user.gender_str }
 		%meta{property: "#{FB["ns"]}:user_image", content: @user.image }
-		%meta{property: "#{FB["ns"]}:name", content: @user.to_s }
+		%meta{property: "#{FB["ns"]}:name", content: @user.name }
 
 		%meta(name="apple-mobile-web-app-capable" content="yes")
 		%meta(name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no")
