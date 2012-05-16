@@ -60,16 +60,13 @@
 				.content
 					.left
 
+						.top-wrap
+							.top
+								="#{@user}."
+								=humanize_stat_for_3rd(@user,@user.swap_stat)
 
 						.map-wrap
 							#map=""
-
-						-#
-							.top-wrap
-								.top
-									="#{@user}."
-									=humanize_stat_for_3rd(@user,@user.swap_stat)
-
 
 						.about
 							.about-out-wrap
