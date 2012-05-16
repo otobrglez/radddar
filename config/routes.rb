@@ -42,7 +42,11 @@ Radddar::Application.routes.draw do
 
   match '/wisdom-script.ttf', :to => "app#wisdom_script"
   match '/steelfish.ttf', :to => "app#steelfish"
-  
+
+
+  # Public radddar spot
+  match '/:id', :to => "app#public_radddar", :as => "public_radddar"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

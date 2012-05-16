@@ -5,6 +5,7 @@ var RadddarMap = new function(){
 	/* Actual map */
 	this.map = null;
 	this.markers = null;
+	this.marker_clusterer = null;
 
 	/* Map options */
 	this.options = {
@@ -13,15 +14,42 @@ var RadddarMap = new function(){
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
 
+
+	/* Set the clusterer from other class */
+	this.set_clusterer = function(){
+
+		var styles = [{
+	        url: '<%= asset_path("box_m1.png") %>',
+	        height: 68, width: 58, anchor: [20, 25], textColor: '#000000', textSize: 16},
+	       	{url: '<%= asset_path("box_m1.png") %>',
+	        height: 68, width: 58, anchor: [20, 25], textColor: '#000000', textSize: 16},
+	       	{url: '<%= asset_path("box_m1.png") %>',
+	        height: 68, width: 58, anchor: [20, 25], textColor: '#000000', textSize: 16},
+	       	{url: '<%= asset_path("box_m1.png") %>',
+	        height: 68, width: 58, anchor: [20, 25], textColor: '#000000', textSize: 16}	        	        
+      	];
+
+		RadddarMap.marker_clusterer = new MarkerClusterer(
+			RadddarMap.map, RadddarMap.markers,{ styles: styles }
+		);
+
+		/*	,{ imagePath: ('<%= asset_path("box_m.png") %>').replace("m.png","m") } */
+	};
+
 	/* Initialize map */
 	this.initialize = function(options){
-		if(typeof(options) != "undefined") this.options = $.extend(this.options, options);
+		if(typeof(options) != "undefined")
+			this.options = $.extend(this.options, options);
 
 		this.map = new google.maps.Map(document.getElementById("map"),this.options);
+		
 		this.markers = new Array();
-
+		
+		//TODO: clusterer does not work on this point.
+		
 		Status.update_swap();
 	};
+
 
 	/* Reload markers from list */
 	this.reload_markers = function(){
@@ -32,29 +60,28 @@ var RadddarMap = new function(){
 		};
 
 		/* Add me on top */
-
 	}
 
 	/* Make marker for user */
 	this.build_marker_for = function(user){
 		var bg_image_str = {
-			male: '<%= asset_path("box_c.png") %>',
-			female: '<%= asset_path("box_r.png") %>',
-			none: '<%= asset_path("box_b.png") %>',
-			off: '<%= asset_path("box_g.png") %>'
+			male: '<%= asset_path("n_box_c.png") %>',
+			female: '<%= asset_path("n_box_r.png") %>',
+			none: '<%= asset_path("n_box_b.png") %>',
+			off: '<%= asset_path("n_box_g.png") %>'
 		};
 
 		/* CHANGE this and you DIE on the SPOT */
 		var bg_image = new google.maps.MarkerImage(bg_image_str[user.gender],
-			new google.maps.Size(52,63),
-			new google.maps.Point(0, 0), 	// Origin
-			new google.maps.Point(26, 62) 	// Anchor
+			new google.maps.Size(58,68),	// OLD: 52,63
+			new google.maps.Point(0, 0), 	// Origin // OLD 0,0
+			new google.maps.Point(28, 67) 	// anchor // OLD 26,62
 		);
 
 		var user_image = new google.maps.MarkerImage(user.image,
-			new google.maps.Size(48, 48),
+			new google.maps.Size(50, 50),
 			new google.maps.Point(0, 0),	// Origin
-			new google.maps.Point(24, (48+11)) 	// Anchor
+			new google.maps.Point(23, 62) 	// Anchor
 		);
 
 		return { bg_image: bg_image, image:user_image };
@@ -92,6 +119,10 @@ var RadddarMap = new function(){
 			};
 			this.markers = new Array();
 		};
+
+		if(this.marker_clusterer) {
+        	this.marker_clusterer.clearMarkers();
+        };
 	};
 
 	/* Remove marker from map */

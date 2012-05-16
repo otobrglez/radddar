@@ -1,0 +1,11 @@
+development:
+  ns: 'radddardev'
+  app_id: '371033286241287'
+
+test:
+  ns: 'radddardev'
+  app_id: '371033286241287'
+
+production:
+  ns: 'radddar'
+  app_id: '203564286383182'

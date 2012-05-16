@@ -1,0 +1,118 @@
+!!!
+%html
+
+	-#
+		<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# radddardev: http://ogp.me/ns/fb/radddardev#">
+		<meta property="fb:app_id"                     content="371033286241287" /> 
+		<meta property="og:type"                       content="radddardev:radddar" /> 
+		<meta property="og:url"                        content="Put your own URL to the object here" /> 
+		<meta property="og:title"                      content="Sample Radddar" /> 
+		<meta property="og:image"                      content="https://s-static.ak.fbcdn.net/images/devsite/attachment_blank.png" /> 
+		<meta property="radddardev:location:latitude"  content="46.5573993" /> 
+		<meta property="radddardev:location:longitude" content="15.645982" /> 
+
+	%head{prefix:"og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# #{FB["ns"]}: http://ogp.me/ns/fb/#{FB["ns"]}#"}
+		%title="RADDDAR of #{@user}."
+
+		= stylesheet_link_tag    "landing", :media => "all"
+		= javascript_include_tag "radddar_public"
+		= csrf_meta_tags
+
+		%link{:rel=>"shortcut icon", :href=>asset_path("radddar_icon.png")}
+
+
+		%meta(property="fb:admins" content="571988676,1014463747")
+
+		%meta{property:"fb:app_id", content:"#{FB["app_id"]}"}
+		%meta{property: "og:title", content: "RADDDAR of #{@user}."}
+		%meta{property: "og:type", content: "#{FB["ns"]}:radddar"}
+		%meta{property: "og:url", content: public_radddar_url(@user)}
+
+		%meta{:property=>"og:image", :content=>image_path("radddar-big.jpg")}
+
+		%meta(property="og:description" content="Raddddar is a web based app where you can easily see and connect with people around you. It’s a service based on coincidence and location. Just a simple opportunity, to meet people near you.")
+
+		- if @user.loc?
+			%meta{property:"#{FB["ns"]}:location:latitude",  content:@user.loc.first}
+			%meta{property:"#{FB["ns"]}:location:longitude", content:@user.loc.last}
+
+		%meta{property: "#{FB["ns"]}:gender", content: @user.gender_str }
+		%meta{property: "#{FB["ns"]}:user_image", content: @user.image }
+		%meta{property: "#{FB["ns"]}:name", content: @user.to_s }
+
+		%meta(name="apple-mobile-web-app-capable" content="yes")
+		%meta(name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no")
+
+		=javascript_include_tag "http://maps.googleapis.com/maps/api/js?key=AIzaSyCFWhDn4H02EWwneGYcGjnxYMtTsf5Hkc0&sensor=false"
+		
+
+		-if Rails.env == "production"
+			=render partial: "layouts/google_analytics"
+
+	%body
+		-if Rails.env == "production"
+			=render partial: 'landing_facebook'
+
+
+		.wrap.public_radddar
+			.inner_wrap
+				.logo=link_to "RADDDAR - Who's on your?", root_url
+				.content
+					.left
+
+
+						.map-wrap
+							#map=""
+
+						-#
+							.top-wrap
+								.top
+									="#{@user}."
+									=humanize_stat_for_3rd(@user,@user.swap_stat)
+
+
+						.about
+							.about-out-wrap
+								%h1
+									What is it
+								%p
+									Raddddar is a web based app where you can easily see and connect with people around you. It’s a service based on coincidence and location. Just a simple opportunity, to meet people near you.
+
+
+						.visit-wrap
+							.visit
+								=link_to "Try it. It's free!", root_path
+
+			.footer
+				.footer-wrap
+					%table{:style=>"margin:0 auto; border-collapse:collapse"}
+						%tr
+							%td{:style => "padding-top:5px;"}
+								-if Rails.env == "production"
+									=render partial: 'landing_twitter'
+								-else
+									%span [landing_twitter]
+							%td
+								-if Rails.env == "production"
+									%div(class="fb-like" data-href="http://www.facebook.com/pages/Radddar/259375980765458" data-send="false" data-layout="button_count" data-width="80" data-show-faces="true" data-colorscheme="dark")=" "
+								-else
+									%span [facebook]
+							%td
+
+								\/
+								=link_to "Twitter","http://twitter.com/myradddar"
+								\/
+								=link_to "Facebook", "http://www.facebook.com/pages/Radddar/259375980765458"
+								\/
+							%td
+								&copy;
+								=link_to "VBG", "http://www.vbg.si"
+							%td
+								\/
+								=mail_to "info@radddar.com", "Contact", :encode => "javascript"
+
+		-#
+			-unless signed_in?
+				=link_to "Facebook login", "/auth/facebook"
+				|
+				=link_to "Twitter login", "/auth/twitter"

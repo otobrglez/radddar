@@ -2,13 +2,13 @@ class AppController < ApplicationController
 
   include ActionView::Helpers::JavaScriptHelper
 
-	respond_to :html, :only => [:app, :landing]
+	respond_to :html, :only => [:app, :landing, :public_radddar]
   respond_to :js
   respond_to :json
 
 	layout 'app'
 
-	before_filter :check_user_auth, :except => [:landing, :live, :reminder, :wisdom_script, :steelfish, :reload_clients]
+	before_filter :check_user_auth, :except => [:landing, :live, :reminder, :wisdom_script, :steelfish, :reload_clients, :public_radddar]
 
 	# Landing page
 	def landing
@@ -191,6 +191,21 @@ class AppController < ApplicationController
   # For the loving god. S3 does not support "Access-Control-Allow-Origin" header
   def wisdom_script; send_font "wisdom_script-webfont.ttf" end
   def steelfish; send_font "steelfish.ttf" end
+
+  # Public radddar
+  def public_radddar
+    begin
+      @user = User.find(params[:id])
+    rescue
+      return redirect_to(root_path) if @user.nil?
+    end
+
+    respond_with(@user) do |f|
+      f.html {
+        render :public_radddar, layout: false
+      }
+    end
+  end
 
 	private
 		# Make sure user is signed in!

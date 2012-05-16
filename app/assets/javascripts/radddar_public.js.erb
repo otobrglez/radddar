@@ -1,0 +1,81 @@
+/* By Oto Brglez - <oto.brglez@opalab.com> for VBG d.o.o. */
+
+//= require jquery
+//= require jquery_ujs
+
+var RadddarPublic = new function(){
+
+	this.map = null;
+	this.markers = null;
+
+	/* Return coordiantes from meta tags */
+	this.get_coordinates = function(){
+		return new google.maps.LatLng(
+			$('meta[property="<%= FB["ns"] %>:location:latitude"]').attr("content"),
+			$('meta[property="<%= FB["ns"] %>:location:longitude"]').attr("content")
+		);
+	};
+
+	/* Build user object from meta tags */
+	this.build_user = function(){
+		return {
+			gender: $('meta[property="<%= FB["ns"] %>:gender"]').attr("content"),
+			image: $('meta[property="<%= FB["ns"] %>:user_image"]').attr("content"),
+			name: $('meta[property="<%= FB["ns"] %>:name"]').attr("content")
+		};
+	};
+
+	this.build_marker_for = function(user){
+		var bg_image_str = {
+			male: '<%= asset_path("n_box_c.png") %>',
+			female: '<%= asset_path("n_box_r.png") %>',
+			none: '<%= asset_path("n_box_b.png") %>',
+			off: '<%= asset_path("n_box_g.png") %>'
+		};
+
+		/* CHANGE this and you DIE on the SPOT */
+		var bg_image = new google.maps.MarkerImage(bg_image_str[user.gender],
+			new google.maps.Size(58,68),	// OLD: 52,63
+			new google.maps.Point(0, 0), 	// Origin // OLD 0,0
+			new google.maps.Point(28, 67) 	// anchor // OLD 26,62
+		);
+
+		var user_image = new google.maps.MarkerImage(user.image,
+			new google.maps.Size(50, 50),
+			new google.maps.Point(0, 0),	// Origin
+			new google.maps.Point(23, 62) 	// Anchor
+		);
+
+		return new google.maps.Marker({
+		  position: this.get_coordinates(),
+		  map: RadddarPublic.map,
+		  icon: user_image,
+		  shadow: bg_image,
+		  title: user.name
+		});
+	};
+
+	this.init = function(){
+		var options = {
+			center: RadddarPublic.get_coordinates(),
+			zoom: 8,
+			mapTypeId: google.maps.MapTypeId.ROADMAP,
+			disableDefaultUI: true
+		};
+
+		this.map = new google.maps.Map(document.getElementById("map"),options);
+
+		var user_maker = this.build_marker_for(this.build_user());
+
+		user_maker.setMap(this.map);
+	}
+};
+
+$(document).ready(function(){
+
+	RadddarPublic.init();
+	
+
+		
+
+});

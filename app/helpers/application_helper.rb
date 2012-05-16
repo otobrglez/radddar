@@ -15,6 +15,17 @@ module ApplicationHelper
 	 	raw stat
 	end
 
+	def humanize_stat_for_3rd user, stat
+		txt = humanize_stat(stat).to_s
+
+		txt.gsub! /you/, "it" if user.gender_str == "none"
+		txt.gsub! /you/, "him" if user.gender_str == "male"
+		txt.gsub! /you/, "her" if user.gender_str == "female"
+
+
+		raw txt
+	end
+
 	# Format message time
 	def message_time message
 		today = DateTime.now

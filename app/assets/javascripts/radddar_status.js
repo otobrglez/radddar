@@ -37,6 +37,10 @@ var Status = new function(){
 				};
 			};
 
+			// No idea.
+			RadddarMap.set_clusterer();
+
+
 			if(typeof(callback) != "undefined")
 				return callback(data);
 		});

@@ -118,7 +118,8 @@ var RadddarChat = new function(){
 			if(RadddarNavigation.current_content_tab() == "chats"){
 				var active_chat = this.active_chat();
 				var sender_chat = user.sender;
-				if(active_chat != sender_chat) RadddarAlerts.add_alert(sender_chat);
+				if(active_chat != sender_chat)
+					RadddarAlerts.add_alert(sender_chat);
 			} else {
 				RadddarAlerts.add_alert(user.sender);
 			};

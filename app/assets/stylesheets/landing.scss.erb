@@ -236,6 +236,7 @@ div.wrap{
 				height:318px;
 				overflow: hidden;
 				margin-left:25px;
+				margin-top:40px;
 			
 				ul{
 					display:block;
@@ -348,6 +349,93 @@ div.wrap{
 .left-wrap span.alpha{
 	color:red;
 }
+
+
+.wrap.public_radddar{
+	
+	.inner_wrap{
+		background-image:url("<%= asset_path('t_circle.png') %>");
+		background-repeat:no-repeat;
+
+		.content{
+			margin-top:30px;
+		}
+
+		.content .left{
+			display:block;
+			margin:0 auto;
+			float:none;
+			width:300px;
+			text-align:center;
+
+			.map-wrap{
+				height:280px;
+				width:300px;
+				display:block;
+				background-color:white;
+				padding-top:5px;
+
+
+				#map{
+					display:block;
+					width:290px;
+					height:280px;
+					margin-left:5px;
+
+					
+				}
+
+			}
+
+			.top-wrap{
+				margin-bottom:0px;
+				background-color:white;
+				color:black;
+
+				span.none,
+				span.ufo 				{	color: #666666;	}
+				span.male, span.boy 	{ 	color: #65D7DE;	}
+				span.female, span.girl 	{ 	color: #DE6C65;	}
+
+				.top{
+					text-align:center;
+					font-family:'Anton', sans-serif;
+					font-size:18px;
+				}
+			}
+
+			.visit-wrap{
+				.visit{
+
+					border-radius:7px;
+					background-color:white;
+					height:30px;
+					line-height:30px;
+					margin-bottom:5px;
+					margin-top:20px;
+
+					a{
+						color:black;
+						display:block;
+						text-indent:10px;
+						text-align:center;
+						font-family: Anton, sans-serif;
+						font-weight:normal;
+						background-position:center right;
+						background-repeat:no-repeat;
+						margin-right:10px;
+					}
+				}
+			}
+		}
+	}
+
+	.footer{
+		display:none;
+	}
+
+}
+
 
 @media only screen and (max-width:750px){
 	
