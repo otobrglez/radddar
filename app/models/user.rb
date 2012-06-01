@@ -33,7 +33,7 @@ class User
   # Allowed swap ranges for #swap_range
   def self.allowed_swap_ranges
     if Rails.env =~ /(production|development)/
-      [1000, 20000, 600000, 5000000 ]
+      [1000, 20000, 600000, 1000000 ]
     else # For testing the last range should be smaller.
       [200, 1000, 20000, 200000 ] #m 200000
     end
@@ -96,7 +96,7 @@ class User
   def swap range=nil #m
   	range = self.swap_range unless !range.nil?
 
-  	raise "Range: #{range} - is not allowed range!" unless range.in? User.allowed_swap_ranges
+  	# raise "Range: #{range} - is not allowed range!" unless range.in? User.allowed_swap_ranges
 
     # Return [] if location is null..
     return [] if self.loc.nil? || self.loc == ""
