@@ -66,6 +66,11 @@ class AppController < ApplicationController
       params[:user][:loc] = params[:user][:loc].map(&:to_f)
     end
 
+    # If location changes
+    if current_user.loc != params[:user][:loc]
+      current_user.notify_social "location_change", {loc: params[:user][:loc]}
+    end
+
     current_user.update_attributes(params[:user])
     
     if current_user.valid?

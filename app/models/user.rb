@@ -33,7 +33,7 @@ class User
   # Allowed swap ranges for #swap_range
   def self.allowed_swap_ranges
     if Rails.env =~ /(production|development)/
-      [200, 1000, 20000, 600000 ]
+      [1000, 20000, 600000, 5000000 ]
     else # For testing the last range should be smaller.
       [200, 1000, 20000, 200000 ] #m 200000
     end
@@ -434,9 +434,19 @@ class User
       user.providers = [provider]
     end
 
+    
+    if user.new_record? # First time here
+    
+    else # Not firt time here
+    
+    end
+
     user.loc = current_location unless current_location.nil?
 
+
     #TODO: update token for provider!
+    user.providers.first.token = auth["credentials"]["token"]
+
 
     if user.valid?
       user.updated_at = DateTime.now
@@ -445,6 +455,14 @@ class User
     end
 
     user
+  end
+
+  def notify_social event, options={}
+    logger.debug "------------------------"
+
+    logger.debug "notify_social #{event}"
+
+    logger.debug "------------------------"
   end
 
   def gender_str
