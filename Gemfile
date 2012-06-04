@@ -38,6 +38,7 @@ gem 'pry-rails', :group => :development
 gem 'jammit-s3', :group => :development
 gem 'airbrake', :git => 'git://github.com/airbrake/airbrake.git'
 gem 'heroku'
+gem 'httparty'
 
 group :development, :test do
 	gem 'rspec'

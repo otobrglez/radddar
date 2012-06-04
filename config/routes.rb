@@ -24,6 +24,10 @@ Radddar::Application.routes.draw do
   match '/status_set', :to => "app#status_set", :as => "status_set"
   match '/status_reload', :to => "app#status_reload", :as => "status_reload"
 
+
+  # Share location on FB
+  match '/share/location/:provider', :to => "app#share_location", :as => "share_location"
+
   # Users
   match '/profile/:id', :to => "app#profile", :as => "profile"
   match '/swap', :to => "app#swap", :as => "swap"

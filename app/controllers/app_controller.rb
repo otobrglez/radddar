@@ -95,6 +95,17 @@ class AppController < ApplicationController
     end
   end
 
+  # Get share_location
+  def share_location
+    provider = params[:provider] || "facebook"
+
+    current_user.notify_social "share_location_on_facebook" if provider =~ /facebook/i
+
+    respond_with(current_user) do |f|
+      f.js { render "app/user/share_location" }
+    end
+  end
+
   # Set status
   def status_set
     current_user.update_attributes(params[:user])

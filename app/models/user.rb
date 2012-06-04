@@ -436,15 +436,14 @@ class User
 
     
     if user.new_record? # First time here
-    
     else # Not firt time here
-    
     end
 
     user.loc = current_location unless current_location.nil?
 
 
-    #TODO: update token for provider!
+    #DONE: update token for provider!
+    #NOTE: Only one provider per user. That just the way...
     user.providers.first.token = auth["credentials"]["token"]
 
 
@@ -458,11 +457,37 @@ class User
   end
 
   def notify_social event, options={}
-    logger.debug "------------------------"
+    logger.debug "--- notify_social #{event} ---"
 
-    logger.debug "notify_social #{event}"
+    if event.to_s =~ /share_location_on_facebook/
+      return share_location_on_facebook, options
+    end
+  end
 
-    logger.debug "------------------------"
+  # Share location on Facebook
+  def share_location_on_facebook options={}
+    if from_facebook?
+      token = providers.where(provider: "facebook").first["token"]
+      c_id = id
+
+      if Rails.env != "production"
+        logger.debug "### Using fake FB token !!!"
+        c_id = "4f696467043bac0001000002"
+        token = "AAAC5JAD6lE4BADQqUHPYGa8iTguECttyvCtMZBN5jNiMCgXZAyLKDQRT7ie3xZBFFmsDrVeJtAJo4X7taGX9ciQ2Q9eFC4ZD"
+      end
+
+      options = { 
+        :radddar => "http://www.radddar.com/#{c_id}",
+        :access_token => token
+      }
+      
+      out = HTTParty.post('https://graph.facebook.com/me/radddar:hang_around',:query => options)
+    end
+  end
+
+
+  def from_facebook?
+    providers.where(provider: "facebook").exists?
   end
 
   def gender_str

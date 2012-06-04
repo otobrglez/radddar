@@ -1,0 +1,7 @@
+var pre_text_html = $(".status_tools .share a").html();
+
+$(".status_tools .share a").text("Location shared!");
+
+var pre_text_set = setTimeout(function(){
+	$(".status_tools .share a").html(pre_text_html);
+},2000);
