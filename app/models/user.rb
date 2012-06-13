@@ -18,6 +18,8 @@ class User
   field :birthday_custom, :type => Date
   field :gender_custom, type: String, default: -> { "none" }
 
+  field :email, :type => String
+
   # loc holds last location that user provided
   field :loc, type: Array
   index [[ :loc, Mongo::GEO2D ]]
@@ -41,8 +43,13 @@ class User
 
   # Return name as string
   define_method(:to_s) {
-    age==0? "#{self.name}": "#{self.name}, #{age}"
+    return "#{self.name}"
+    #age==0? "#{self.name}": "#{self.name}, #{age}"
   }
+
+  def w_age
+    age==0? "#{self.name}": "#{self.name}, #{age}"    
+  end
 
   scope :box, ->(loc_a, loc_b) {
 	  User.where(:loc => {
@@ -446,6 +453,10 @@ class User
     #NOTE: Only one provider per user. That just the way...
     user.providers.first.token = auth["credentials"]["token"]
 
+    # Email
+    if auth["info"].keys.include? "email"
+      user.email = auth["info"]["email"] unless auth["info"]["email"].nil?
+    end
 
     if user.valid?
       user.updated_at = DateTime.now
@@ -454,6 +465,10 @@ class User
     end
 
     user
+  end
+
+  def has_email?
+     not(email.nil?) and not(email.empty?) and not(email.strip=="")
   end
 
   def notify_social event, options={}
