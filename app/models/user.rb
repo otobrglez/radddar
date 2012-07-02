@@ -10,6 +10,8 @@ class User
   extend ActiveSupport::Concern
   include ActionView::Helpers::NumberHelper
 
+  include ApplicationHelper
+
   # First name if facebook / username if twitter
   field :name, :type => String
 
@@ -496,7 +498,27 @@ class User
         :access_token => token
       }
       
+      # Event ...
       out = HTTParty.post('https://graph.facebook.com/me/radddar:hang_around',:query => options)
+    
+      # Status on feed
+      status_msg = self.swap_stat
+      status_msg.gsub! /you/, "me" 
+      status_msg = "I'm on RADDDAR at the moment. #{status_msg} \nMy swap: http://www.radddar.com/#{c_id}"
+
+      fb_uid = self.providers.first.uid
+
+     # debugger
+      #t=1
+
+      out_2 = HTTParty.post("https://graph.facebook.com/#{fb_uid}/feed",:query => {
+        :message => status_msg,
+        #:link => "http://www.radddar.com/#{c_id}",
+        #:name => status_msg,
+        #:object_id => out["id"],
+        :access_token => token
+      })
+
     end
   end
 
