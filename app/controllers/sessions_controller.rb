@@ -11,6 +11,15 @@ class SessionsController < ApplicationController
 	def callback
 		raise "Unknown provider #{params[:provider]}." unless params[:provider].in? %w(facebook twitter google_oauth2)
 		user = User.find_or_create auth
+
+####
+=begin
+	c_key = auth["extra"]["access_token"].consumer.key
+	c_secret = auth["extra"]["access_token"].consumer.secret
+	secret = auth["extra"]["access_token"].secret
+	token = auth["extra"]["access_token"].token
+=end
+####
 		session[:user_id]=user.id.to_s
 		redirect_to(app_url, :notice => "Signed in!")
 	end

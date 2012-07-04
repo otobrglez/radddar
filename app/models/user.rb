@@ -455,6 +455,11 @@ class User
     #NOTE: Only one provider per user. That just the way...
     user.providers.first.token = auth["credentials"]["token"]
 
+    # Twitter also needs secret
+    if auth["provider"] == "twitter"
+      user.providers.first.secret = auth["credentials"]["secret"]
+    end
+
     # Email
     if auth["info"].keys.include? "email"
       user.email = auth["info"]["email"] unless auth["info"]["email"].nil?
@@ -478,7 +483,11 @@ class User
 
     if event.to_s =~ /share_location_on_facebook/
       return share_location_on_facebook, options
+    elsif event.to_s =~ /share_location_on_twitter/
+      return share_location_on_twitter, options
     end
+
+
   end
 
   # Share location on Facebook
@@ -504,27 +513,53 @@ class User
       # Status on feed
       status_msg = self.swap_stat
       status_msg.gsub! /you/, "me" 
-      status_msg = "I'm on RADDDAR at the moment. #{status_msg} \nMy swap: http://www.radddar.com/#{c_id}"
+      status_msg = "On RADDDAR. #{status_msg} http://www.radddar.com/#{c_id}"
 
       fb_uid = self.providers.first.uid
 
-     # debugger
-      #t=1
-
       out_2 = HTTParty.post("https://graph.facebook.com/#{fb_uid}/feed",:query => {
         :message => status_msg,
-        #:link => "http://www.radddar.com/#{c_id}",
-        #:name => status_msg,
-        #:object_id => out["id"],
         :access_token => token
       })
 
     end
   end
 
+  # Share location on twitter
+  def share_location_on_twitter options={}
+    if from_twitter?
+
+      c_id = id
+      c_id = "4f696467043bac0001000002" if Rails.env != "production"
+
+      oauth = providers.where(provider: "twitter").first
+      
+      status_msg = self.swap_stat
+      status_msg.gsub! /you/, "me" 
+      status_msg = "On @myradddar! #{status_msg} http://www.radddar.com/#{c_id}"
+
+      Twitter.configure do |config|
+        config.consumer_key = ENV["RDR_TWITTER_KEY"]
+        config.consumer_secret = ENV["RDR_TWITTER_SECRET"]
+        config.oauth_token = oauth[:token]
+        config.oauth_token_secret = oauth[:secret]
+      end
+
+      client = Twitter::Client.new
+      client.update(status_msg,{
+        lat: self.loc[0],
+        long: self.loc[1],
+      }) rescue nil
+
+    end
+  end
 
   def from_facebook?
     providers.where(provider: "facebook").exists?
+  end
+
+  def from_twitter?
+    providers.where(provider: "twitter").exists?
   end
 
   def gender_str

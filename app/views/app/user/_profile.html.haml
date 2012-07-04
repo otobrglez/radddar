@@ -23,6 +23,10 @@
 			-if user.from_facebook?
 				.share.fb
 					=link_to raw('Share location on <span class="fb">Facebook</span>!'), share_location_path(provider:"facebook"), remote:true, class: "share_location"
+
+			-if user.from_twitter?
+				.share.tw
+					=link_to raw('Share location on <span class="tw">Twitter</span>!'), share_location_path(provider:"twitter"), remote:true, class: "share_location"					
 %ul
 	%li.name
 		%span.label Name

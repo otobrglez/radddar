@@ -39,6 +39,7 @@ gem 'jammit-s3', :group => :development
 gem 'airbrake', :git => 'git://github.com/airbrake/airbrake.git'
 gem 'heroku'
 gem 'httparty'
+gem 'twitter'
 
 group :development, :test do
 	gem 'rspec'
