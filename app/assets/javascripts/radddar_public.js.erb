@@ -64,15 +64,11 @@ var RadddarPublic = new function(){
 		};
 
 		this.map = new google.maps.Map(document.getElementById("map"),options);
-
 		var user_maker = this.build_marker_for(this.build_user());
-
 		user_maker.setMap(this.map);
 	}
 };
 
 $(document).ready(function(){
-
 	RadddarPublic.init();
-
 });

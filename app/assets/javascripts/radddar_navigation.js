@@ -83,8 +83,9 @@ var RadddarNavigation = new function(){
 					
 					User.load_profile(e.member.id,function(data){
 						/* Hide tools if user is not online! */
+						
 						if(!User.is_online(member_id))
-							$(".tabs .member_profile .profile_tools").hide();
+							$(".tabs .member_profile .profile_tools .chat_wrap").hide();
 
 						$(document).trigger({type:"move_to",tab:"member_profile"});
 					});

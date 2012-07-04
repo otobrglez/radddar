@@ -636,9 +636,14 @@ class User
       note = Note.new(:from => self, :to => user)
       
       if note.valid?
-        note.save 
+        note.save
+
         trigger_event_for_user user, "notification-received", note
         trigger_event "notification-sent", note
+        
+        if note.to.email != nil and note.to.email != ""
+          NotificationsMailer.poke(note).deliver
+        end
         
         return true
       end

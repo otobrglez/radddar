@@ -80,7 +80,7 @@ wisdom_script-webfont.svg: wisdom_script-webfont-d486d06d5888a6b6162318d455084ca
 wisdom_script-webfont.ttf: wisdom_script-webfont-3e59625645ef195f18b48c5983eb80e4.ttf
 wisdom_script-webfont.woff: wisdom_script-webfont-7360a1e10c21098c810d2c1d04e30cf4.woff
 wisdom_script.otf: wisdom_script-99019fc344be1135418bba6109866ccd.otf
-app.js: app-e7ccf6dee3ad40ee3589227e80dd94af.js
+app.js: app-cb035db82cb648b653ea71cd57aa25bb.js
 landing.js: landing-2baaf6d1b9b9571a6f0083b755805b7c.js
 live.js: live-0a2284b2c35c4ba82c2b72088277e8dd.js
 radddar_public.js: radddar_public-599c1b893da7e323bdb1a8f384a703f6.js
