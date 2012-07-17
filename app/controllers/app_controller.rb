@@ -102,7 +102,6 @@ class AppController < ApplicationController
     current_user.notify_social "share_location_on_facebook" if provider =~ /facebook/i
     current_user.notify_social "share_location_on_twitter" if provider =~ /twitter/i
 
-
     respond_with(current_user) do |f|
       f.js { render "app/user/share_location" }
     end

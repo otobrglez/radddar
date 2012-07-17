@@ -34,6 +34,8 @@ class User
   # Field status
   field :status, type: String
 
+  before_save :move_away_from_others
+
   # Allowed swap ranges for #swap_range
   def self.allowed_swap_ranges
     if Rails.env =~ /(production|development)/
@@ -711,6 +713,24 @@ class User
     end
 
     out
+  end
+
+  # If there is the user with the same location. 
+  # Move away from it by 100m and for random angle.
+  def move_away_from_others
+    
+    if User.exists?(conditions: {loc: self.loc, :_id.ne => self.id, :updated_at.gt => 72.hours.ago})
+      self.loc = User.move_away(self.loc)
+    end
+  end
+
+
+  # move
+  def self.move_away point, length_degree=0.001, direction_degree=(0..360).to_a.sample
+    [
+      point[0] + length_degree * Math.cos( direction_degree * Math::PI/180),
+      point[1] + length_degree * Math.sin( direction_degree * Math::PI/180)    
+    ]
   end
 
   # PI = 3.1415926535

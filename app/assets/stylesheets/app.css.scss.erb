@@ -236,7 +236,7 @@ body{
 						}
 						margin-bottom:6px;
 						background-image:url("<%= asset_path 'status_down_b.png' %>");
-						background-position:30px bottom;
+						background-position:-3px bottom;
 						background-repeat:no-repeat;
 					}
 
@@ -260,12 +260,52 @@ body{
 
 					.profile_image_wrap{
 						position:absolute;
-						left:40px;
+						left:5px;
 						top:0px;
 					}
 
 					.tools{
 						padding-left:105px;
+						padding-left:70px;
+
+						.status, .loc, .share{
+							border-bottom:1px dotted white;
+							height:40px;
+							line-height:40px;
+							a{
+								background-position:center right;
+								background-repeat:no-repeat;
+							}
+						}
+
+						.loc a{
+							background-image:url(<%= asset_path("refresh.png") %>);
+							display:block;
+							margin-right:10px;
+						}
+
+						.share a{
+							background-image:url(<%= asset_path("share.png") %>);
+							display:block;
+							margin-right:10px;							
+						}
+
+						.status a.update_status_link{
+							display:block;
+							background-image:url(<%= asset_path("edit_pen.png") %>);
+							background-position:center right;
+							background-repeat:no-repeat;
+						}
+
+						div.status.open a.update_status_link{
+							background-image:none;
+							display:inline-block;
+							width:120px;
+						}
+
+						.share{
+							border:none;
+						}
 					}
 				}
 
@@ -316,7 +356,9 @@ body{
 					}
 				}
 
-				.update_status_link{ margin-right:20px; }
+				.update_status_link{
+					margin-right:10px;
+				}
 			}
 
 			/* #### male #### */

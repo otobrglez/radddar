@@ -1,3 +1,4 @@
 $(".live_status_field").html('<%= j render(partial:"app/user/status_field", locals:{user:current_user}) %>');
 
 $(".status_tools .buttonz").hide();
+$(".status_tools div.status").removeClass("open");
